@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h2 {
+    @apply text-2xl;
+}
+.anchor {
+    @apply text-sky-600 hover:text-sky-400;
+}
