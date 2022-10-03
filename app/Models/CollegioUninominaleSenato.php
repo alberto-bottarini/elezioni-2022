@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CollegioUninominaleSenato extends Model
 {
     use HasFactory;
+    use Sluggable;
 
     public $table = 'collegi_uninominali_senato';
 
@@ -19,5 +22,15 @@ class CollegioUninominaleSenato extends Model
     public function comuni()
     {
         return $this->hasMany(Comune::class, 'collegio_uninominale_senato_id');
+    }
+
+    public function candidature(): HasMany
+    {
+        return $this->hasMany(CandidaturaCollegioUninominaleSenato::class, 'collegio_uninominale_senato_id')
+            ->orderBy('numero');
+    }
+
+    protected function getDetailRouteName(): string {
+        return 'collegio_uninominale_senato';
     }
 }

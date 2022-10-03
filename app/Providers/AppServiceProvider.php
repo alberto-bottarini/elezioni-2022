@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
     }
 
     /**
@@ -23,6 +23,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Builder::macro('whereLike', function (string $column, string $search) {
+            return $this->where($column, 'LIKE', '%' . $search . '%');
+        });
+
+        Builder::macro('orWhereLike', function (string $column, string $search) {
+            return $this->orWhere($column, 'LIKE', '%' . $search . '%');
+        });
     }
 }

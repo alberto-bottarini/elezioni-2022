@@ -3,12 +3,33 @@
 @tailwind utilities;
 
 body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 
 h2 {
     @apply text-2xl;
 }
+
 .anchor {
     @apply text-sky-600 hover:text-sky-400;
+}
+
+.tr-heading {
+    @apply bg-sky-400 text-white uppercase font-normal;
+}
+
+th, td {
+    @apply px-2 py-1 text-left;
+}
+
+.tr-standard {
+    @apply even:bg-slate-100 odd:bg-slate-200;
+}
+
+.tr-subheading {
+    @apply bg-sky-300 text-white font-bold text-xs;
+}
+
+.section {
+    @apply bg-sky-600 text-white uppercase p-2 font-bold mt-4;
 }

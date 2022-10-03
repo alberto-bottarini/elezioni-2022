@@ -5,9 +5,9 @@
     @include('partials.breadcrumb', [
         'crumbs' => [
             [ 'route' => route('home'), 'label' => 'Home' ],
-            [ 'route' => route('circoscrizioni_camera'), 'label' => 'Circoscrizioni Camera' ],
-            [ 'route' => route('circoscrizione_camera', $collegio->collegioPlurinominale->circoscrizione), 'label' => $collegio->collegioPlurinominale->circoscrizione->nome ],
-            [ 'route' => route('collegio_plurinominale_camera', $collegio->collegioPlurinominale), 'label' => $collegio->collegioPlurinominale->nome ],
+            [ 'route' => route('circoscrizioni_senato'), 'label' => 'Circoscrizioni Senato' ],
+            [ 'route' => route('circoscrizione_senato', $collegio->collegioPlurinominale->circoscrizione), 'label' => $collegio->collegioPlurinominale->circoscrizione->nome ],
+            [ 'route' => route('collegio_plurinominale_senato', $collegio->collegioPlurinominale), 'label' => $collegio->collegioPlurinominale->nome ],
             
         ],
         'title' => $collegio->nome

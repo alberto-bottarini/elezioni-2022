@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GeoController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,3 +32,5 @@ Route::get('/comuni', [GeoController::class, 'comuni'])->name('comuni');
 
 Route::get('/liste', [ListeController::class, 'liste'])->name('liste');
 Route::get('/lista/{lista}', [ListeController::class, 'lista'])->name('lista');
+
+Route::post('/ricerca', [SearchController::class, 'search'])->name('ricerca');

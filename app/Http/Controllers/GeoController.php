@@ -7,6 +7,7 @@ use App\Models\CircoscrizioneSenato;
 use App\Models\CollegioPlurinominaleCamera;
 use App\Models\CollegioPlurinominaleSenato;
 use App\Models\CollegioUninominaleCamera;
+use App\Models\CollegioUninominaleSenato;
 
 class GeoController extends Controller
 {
@@ -48,8 +49,6 @@ class GeoController extends Controller
 
     public function collegioUninominaleCamera(CollegioUninominaleCamera $collegioUninominale)
     {
-        $collegioUninominale->candidature;
-
         return view('geo.collegio_uninominale_camera')
             ->with('collegio', $collegioUninominale);
     }
@@ -91,4 +90,13 @@ class GeoController extends Controller
             ->with('collegiUninominali', $collegiUninominali)
             ->with('candidature', $candidature);
     }
+
+    public function collegioUninominaleSenato(CollegioUninominaleSenato $collegioUninominale)
+    {
+        $collegioUninominale->candidature;
+
+        return view('geo.collegio_uninominale_senato')
+            ->with('collegio', $collegioUninominale);
+    }
+
 }
