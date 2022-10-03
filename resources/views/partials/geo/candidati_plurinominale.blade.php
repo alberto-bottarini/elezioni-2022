@@ -10,7 +10,7 @@
         @foreach($candidatura->candidati as $candidato)
             <tr class="tr-standard">
                 <td><a href="" class="anchor">@svg('heroicon-o-user-circle', 'w-5 h-5 inline-block') {{ $candidato->cognome }} {{ $candidato->nome }} {{ $candidato->altro_1 }} {{ $candidato->altro_2 }}</a></td>
-                <td>nato nel {{ $candidato->anno_nascita }} a {{ $candidato->luogo_nascita }}</a></td>
+                <td>{{ $candidatura->id }} nato nel {{ $candidato->anno_nascita }} a {{ $candidato->luogo_nascita }}</a></td>
             </tr>
         @endforeach
     @endforeach

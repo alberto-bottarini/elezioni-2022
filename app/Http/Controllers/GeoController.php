@@ -75,13 +75,10 @@ class GeoController extends Controller
 
     public function collegioPlurinominaleSenato(CollegioPlurinominaleSenato $collegioPlurinominale)
     {
-        $collegiUninominali = $collegioPlurinominale->collegiUninominali()
-            ->orderBy('nome')
-            ->get();
+        //dd($collegioPlurinominale->candidature->toArray());
 
         return view('geo.collegio_plurinominale_senato')
-            ->with('collegio', $collegioPlurinominale)
-            ->with('collegiUninominali', $collegiUninominali);
+            ->with('collegio', $collegioPlurinominale);
     }
 
     public function collegioUninominaleSenato(CollegioUninominaleSenato $collegioUninominale)

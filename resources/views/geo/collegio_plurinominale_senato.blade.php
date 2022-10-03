@@ -17,9 +17,9 @@
         <tr class="tr-heading">
             <th>Nome</th>
         </tr>
-        @foreach($collegiUninominali as $collegio)
+        @foreach($collegio->collegiUninominali as $collegioUninominale)
             <tr class="tr-standard">
-                <td><a href="{{ route('collegio_uninominale_senato', $collegio) }}" class="anchor">@svg('heroicon-o-cursor-arrow-rays', 'w-5 h-5 inline-block') {{ $collegio->nome }}</a></td>
+                <td><a href="{{ route('collegio_uninominale_senato', $collegioUninominale) }}" class="anchor">@svg('heroicon-o-cursor-arrow-rays', 'w-5 h-5 inline-block') {{ $collegioUninominale->nome }}</a></td>
             </tr>
         @endforeach
     </table>
