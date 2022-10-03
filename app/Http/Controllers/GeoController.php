@@ -40,12 +40,9 @@ class GeoController extends Controller
             ->orderBy('nome')
             ->get();
 
-        $candidature = $collegioPlurinominale->candidature;
-
         return view('geo.collegio_plurinominale_camera')
             ->with('collegio', $collegioPlurinominale)
-            ->with('collegiUninominali', $collegiUninominali)
-            ->with('candidature', $candidature);
+            ->with('collegiUninominali', $collegiUninominali);
     }
 
     public function collegioUninominaleCamera(CollegioUninominaleCamera $collegioUninominale)
@@ -82,20 +79,13 @@ class GeoController extends Controller
             ->orderBy('nome')
             ->get();
 
-        $candidature = $collegioPlurinominale->candidature()
-            ->orderBy('numero')
-            ->get();
-
         return view('geo.collegio_plurinominale_senato')
             ->with('collegio', $collegioPlurinominale)
-            ->with('collegiUninominali', $collegiUninominali)
-            ->with('candidature', $candidature);
+            ->with('collegiUninominali', $collegiUninominali);
     }
 
     public function collegioUninominaleSenato(CollegioUninominaleSenato $collegioUninominale)
     {
-        $collegioUninominale->candidature;
-
         return view('geo.collegio_uninominale_senato')
             ->with('collegio', $collegioUninominale);
     }

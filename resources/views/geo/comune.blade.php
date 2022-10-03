@@ -10,12 +10,12 @@
         'title' => $comune->nome . ' (' . $comune->provincia.')'
     ])
 
-    <h2 class="section">Collegi Camera</h2>
+    <h2 class="section">Collegi</h2>
 
     <table class="table">
         <tr class="tr-standard">
             <td>
-                Collegio uninominale
+                Collegio uninominale Camera
             </td>
             <td>
                 <a class="anchor" href="{{ route('collegio_uninominale_camera', ['collegioUninominale' => $comune->collegioUninominaleCamera ]) }}">
@@ -25,7 +25,7 @@
         </tr>
         <tr class="tr-standard">
             <td>
-                Collegio plurinominale
+                Collegio plurinominale Camera
             </td>
             <td>
                 <a class="anchor" href="{{ route('collegio_plurinominale_camera', ['collegioPlurinominale' => $comune->collegioUninominaleCamera->collegioPlurinominale ]) }}">
@@ -33,14 +33,9 @@
                 </a>
             </td>
         </tr>
-    </table>
-
-    <h2 class="section">Collegi Senato</h2>
-
-    <table class="table">
         <tr class="tr-standard">
             <td>
-                Collegio uninominale
+                Collegio uninominale Senato
             </td>
             <td>
                 <a class="anchor" href="{{ route('collegio_uninominale_senato', ['collegioUninominale' => $comune->collegioUninominaleSenato ]) }}">
@@ -50,7 +45,7 @@
         </tr>
         <tr class="tr-standard">
             <td>
-                Collegio plurinominale
+                Collegio plurinominale Senato
             </td>
             <td>
                 <a class="anchor" href="{{ route('collegio_plurinominale_senato', ['collegioPlurinominale' => $comune->collegioUninominaleSenato->collegioPlurinominale ]) }}">
@@ -59,5 +54,21 @@
             </td>
         </tr>
     </table>
+
+    <h2 class="section">Candidati uninominale Camera</h2>
+
+    @include('partials.geo.candidati_uninominale', ['candidature' => $comune->collegioUninominaleCamera->candidature ])
+
+    <h2 class="section">Candidati plurinominale Camera</h2>
+
+    @include('partials.geo.candidati_plurinominale', ['candidature' => $comune->collegioUninominaleCamera->collegioPlurinominale->candidature ])
+
+    <h2 class="section">Candidati uninominale Senato</h2>
+
+    @include('partials.geo.candidati_uninominale', ['candidature' => $comune->collegioUninominaleSenato->candidature ])
+
+    <h2 class="section">Candidati plurinominale Senato</h2>
+
+    @include('partials.geo.candidati_plurinominale', ['candidature' => $comune->collegioUninominaleSenato->collegioPlurinominale->candidature ])
 
 @endsection
