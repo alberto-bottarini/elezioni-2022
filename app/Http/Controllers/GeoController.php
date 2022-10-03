@@ -8,6 +8,7 @@ use App\Models\CollegioPlurinominaleCamera;
 use App\Models\CollegioPlurinominaleSenato;
 use App\Models\CollegioUninominaleCamera;
 use App\Models\CollegioUninominaleSenato;
+use App\Models\Comune;
 
 class GeoController extends Controller
 {
@@ -97,6 +98,21 @@ class GeoController extends Controller
 
         return view('geo.collegio_uninominale_senato')
             ->with('collegio', $collegioUninominale);
+    }
+
+    public function comuni()
+    {
+        $comuni = Comune::orderBy('nome')->orderBy('provincia')->get();
+        $comuniPerProvincia = $comuni->groupBy('provincia')->sortKeys();
+        return view('geo.comuni')
+            ->with('comuniPerProvincia', $comuniPerProvincia);
+    }
+
+    public function comune(Comune $comune)
+    {
+        
+        return view('geo.comune')
+            ->with('comune', $comune);
     }
 
 }

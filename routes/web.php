@@ -29,6 +29,8 @@ Route::get('/collegio-plurinominale-senato/{collegioPlurinominale}', [GeoControl
 Route::get('/collegio-uninominale-senato/{collegioUninominale}', [GeoController::class, 'collegioUninominaleSenato'])->name('collegio_uninominale_senato');
 
 Route::get('/comuni', [GeoController::class, 'comuni'])->name('comuni');
+Route::get('/comune/{comune}', [GeoController::class, 'comune'])->name('comune');
+
 
 Route::get('/liste', [ListeController::class, 'liste'])->name('liste');
 Route::get('/lista/{lista}', [ListeController::class, 'lista'])->name('lista');

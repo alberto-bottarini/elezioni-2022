@@ -15,7 +15,7 @@
 
     <h2 class="section">Candidati</h2>
 
-    <table class="w-full text-sm">
+    <table class="table">
         <tr class="tr-heading">
             <th>Nome</th>
             <th>Anno di nascita</th>
@@ -40,13 +40,13 @@
 
     <h2 class="section">Comuni</h2>
 
-    <table class="w-full text-sm">
+    <table class="table">
         <tr class="tr-heading">
             <th>Nome</th>
         </tr>
         @foreach($collegio->comuni as $comune)
             <tr class="tr-standard">
-                <td><a href="#" class="anchor">{{ $comune->nome }}</td>
+                <td><a href="{{ route('comune', $comune) }}" class="anchor">@svg('heroicon-o-map-pin', 'w-5 h-5 inline-block'){{ $comune->nome }}</td>
             </tr>
         @endforeach
     </table>

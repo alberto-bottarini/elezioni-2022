@@ -11,7 +11,7 @@ h2 {
 }
 
 .anchor {
-    @apply text-sky-600 hover:text-sky-400;
+    @apply text-sky-600 hover:text-sky-400 outline-none focus:outline-none;
 }
 
 .tr-heading {
@@ -32,4 +32,8 @@ th, td {
 
 .section {
     @apply bg-sky-600 text-white uppercase p-2 font-bold mt-4;
+}
+
+.table {
+    @apply w-full text-sm table-fixed;
 }
