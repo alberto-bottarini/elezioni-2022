@@ -23,7 +23,7 @@ class SearchController extends Controller
             ->map(function($comune) {
                 return [
                     'label' => $comune->nome,
-                    'route' => 'http://www.gazzetta.it',
+                    'route' => route('comune', $comune),
                     'type' => 'comune'
                 ];
             })
