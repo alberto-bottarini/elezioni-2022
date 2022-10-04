@@ -47,3 +47,7 @@ th, td {
 .table {
     @apply w-full text-sm;
 }
+
+footer a {
+    @apply underline text-sky-300;
+}

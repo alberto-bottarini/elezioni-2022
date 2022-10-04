@@ -5,7 +5,7 @@
     <div x-data="searchComponent">
         <div class="section">Ricerca</div>
 
-        <input type="text" class="h-12 w-full border border-sky-400 text-xl px-2 my-2 shadow" autocomplete="false"
+        <input type="text" class="h-12 w-full border border-sky-400 text-xl px-2 my-4 shadow" autocomplete="false"
             x-model="search"
             @input.throttle="change" placeholder="Inserisci i parametri di ricerca (almeno 3 caratteri)">
 
@@ -77,7 +77,7 @@
             <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
                 <a href="{{ route('candidati') }}" class="block py-4 px-2">
                     @svg('heroicon-o-user-circle', 'w-5 h-5 inline-block mb-2')<br>
-                    Elenco caldidati
+                    Elenco candidati
                 </a>
             </div>
         </div>

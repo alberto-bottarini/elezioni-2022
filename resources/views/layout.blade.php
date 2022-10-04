@@ -24,13 +24,15 @@
     </div>
   </div>
 
-  <div class="bg-sky-800 text-white p-4">
+  <footer class="bg-sky-800 text-white p-4">
     <div class="container mx-auto">
         <div class="text-sm">
-            Io sono il footer
-        </div>
+            Elezioni 2022 è un progetto di <a href="https://www.albertobottarini.com" target="_blank">Alberto Bottarini</a>
+            <br>
+            I dati visualizzati sono stati ottenuti grazie al lavoro di <a href="https://github.com/ondata/elezioni-politiche-2022" target="_blank">OnData</a>
+         </div>
     </div>
-  </div>
+  </footer>
 
   @vite('resources/js/app.js')
 </body>
