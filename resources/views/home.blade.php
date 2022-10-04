@@ -7,7 +7,7 @@
 
         <input type="text" class="h-12 w-full border border-sky-400 text-xl px-2 my-2 shadow" autocomplete="false"
             x-model="search"
-            @input.throttle="change" placeholder="Inserisci i parametri di ricerca">
+            @input.throttle="change" placeholder="Inserisci i parametri di ricerca (almeno 3 caratteri)">
 
         <div x-html="results"></div>
 
@@ -19,7 +19,7 @@
                     search: null,
 
                     async change() {
-                        if(this.search.length === 0) {
+                        if(this.search.length < 3) {
                             this.results = ''
                             return;
                         }
@@ -60,6 +60,15 @@
                 <a href="{{ route('comuni') }}" class="block py-4 px-2">
                     @svg('heroicon-o-map-pin', 'w-5 h-5 inline-block mb-2')<br>
                     Elenco comuni
+                </a>
+            </div>
+        </div>
+
+        <div class="w-1/2 md:w-1/4 lg:w-1/6">
+            <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
+                <a href="{{ route('liste') }}" class="block py-4 px-2">
+                    @svg('heroicon-o-list-bullet', 'w-5 h-5 inline-block mb-2')<br>
+                    Elenco liste
                 </a>
             </div>
         </div>

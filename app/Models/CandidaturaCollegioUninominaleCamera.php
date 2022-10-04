@@ -29,4 +29,9 @@ class CandidaturaCollegioUninominaleCamera extends Model
         return $this->belongsTo(Coalizione::class, 'coalizione_id');
     }
 
+    public function collegio(): BelongsTo
+    {
+        return $this->belongsTo(CollegioUninominaleCamera::class, 'collegio_uninominale_camera_id');
+    }
+
 }

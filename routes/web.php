@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GeoController;
+use App\Http\Controllers\ListeController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,8 +32,11 @@ Route::get('/collegio-uninominale-senato/{collegioUninominale}', [GeoController:
 Route::get('/comuni', [GeoController::class, 'comuni'])->name('comuni');
 Route::get('/comune/{comune}', [GeoController::class, 'comune'])->name('comune');
 
-
 Route::get('/liste', [ListeController::class, 'liste'])->name('liste');
 Route::get('/lista/{lista}', [ListeController::class, 'lista'])->name('lista');
+Route::get('/lista/{lista}/collegi-plurinominali-camera', [ListeController::class, 'listaPlurinominaliCamera'])->name('lista_collegi_plurinominali_camera');
+Route::get('/lista/{lista}/collegi-uninominali-camera', [ListeController::class, 'listaUninominaliCamera'])->name('lista_collegi_uninominali_camera');
+Route::get('/lista/{lista}/collegi-plurinominali-senato', [ListeController::class, 'listaPlurinominaliSenato'])->name('lista_collegi_plurinominali_senato');
+Route::get('/lista/{lista}/collegi-uninominali-senato', [ListeController::class, 'listaUninominaliSenato'])->name('lista_collegi_uninominali_senato');
 
 Route::post('/ricerca', [SearchController::class, 'search'])->name('ricerca');

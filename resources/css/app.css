@@ -45,5 +45,5 @@ th, td {
 }
 
 .table {
-    @apply w-full text-sm table-fixed;
+    @apply w-full text-sm;
 }

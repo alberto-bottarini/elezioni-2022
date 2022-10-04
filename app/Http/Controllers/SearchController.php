@@ -16,6 +16,10 @@ class SearchController extends Controller
             return;
         }
 
+        if(strlen($search) < 3) {
+            return;
+        }
+
         $results = [];
         
         $results = array_merge($results, Comune::whereLike('nome', $search)
