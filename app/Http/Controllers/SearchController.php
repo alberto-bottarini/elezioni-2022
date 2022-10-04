@@ -40,7 +40,7 @@ class SearchController extends Controller
             ->map(function($candidato) {
                 return [
                     'label' => $candidato->nome . ' ' . $candidato->cognome,
-                    'route' => 'http://www.gazzetta.it',
+                    'route' => route('candidato', $candidato),
                     'type' => 'candidato'
                 ];
             })

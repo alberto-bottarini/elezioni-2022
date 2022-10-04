@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CandidatiController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GeoController;
 use App\Http\Controllers\ListeController;
@@ -38,5 +39,8 @@ Route::get('/lista/{lista}/collegi-plurinominali-camera', [ListeController::clas
 Route::get('/lista/{lista}/collegi-uninominali-camera', [ListeController::class, 'listaUninominaliCamera'])->name('lista_collegi_uninominali_camera');
 Route::get('/lista/{lista}/collegi-plurinominali-senato', [ListeController::class, 'listaPlurinominaliSenato'])->name('lista_collegi_plurinominali_senato');
 Route::get('/lista/{lista}/collegi-uninominali-senato', [ListeController::class, 'listaUninominaliSenato'])->name('lista_collegi_uninominali_senato');
+
+Route::get('/candidati', [CandidatiController::class, 'candidati'])->name('candidati');
+Route::get('/candidati/{candidato}', [CandidatiController::class, 'candidato'])->name('candidato');
 
 Route::post('/ricerca', [SearchController::class, 'search'])->name('ricerca');

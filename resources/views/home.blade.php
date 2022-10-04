@@ -73,6 +73,15 @@
             </div>
         </div>
 
+        <div class="w-1/2 md:w-1/4 lg:w-1/6">
+            <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
+                <a href="{{ route('candidati') }}" class="block py-4 px-2">
+                    @svg('heroicon-o-user-circle', 'w-5 h-5 inline-block mb-2')<br>
+                    Elenco caldidati
+                </a>
+            </div>
+        </div>
+
 
     </div>
 @endsection
