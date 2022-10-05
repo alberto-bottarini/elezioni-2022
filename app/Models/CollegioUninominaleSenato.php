@@ -12,6 +12,7 @@ class CollegioUninominaleSenato extends Model
     use HasFactory;
     use Sluggable;
 
+    public $timestamps = false;
     public $table = 'collegi_uninominali_senato';
 
     public function collegioPlurinominale()
@@ -21,7 +22,8 @@ class CollegioUninominaleSenato extends Model
 
     public function comuni()
     {
-        return $this->hasMany(Comune::class, 'collegio_uninominale_senato_id');
+        return $this->belongsToMany(Comune::class, 'collegi_uninominali_senato_comuni', 'collegio_uninominale_senato_id', 'comune_id')
+            ->orderBy('nome');
     }
 
     public function candidature(): HasMany

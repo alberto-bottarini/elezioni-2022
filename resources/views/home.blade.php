@@ -1,5 +1,9 @@
 @extends('layout')
 
+@section('meta')
+
+@endsection
+
 @section('content')
 
     <div x-data="searchComponent">
@@ -84,4 +88,11 @@
 
 
     </div>
+
+    <div class="section">Aggiornamenti del portale</div>
+
+    <ul class="text-sm mt-4">
+        <li><b>04/10/22</b> Create le pagine dei candidati</li>
+        <li><b>03/10/22</b> Create le pagine dei comuni</li>
+    </ul>
 @endsection

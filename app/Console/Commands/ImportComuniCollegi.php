@@ -74,9 +74,9 @@ class ImportComuniCollegi extends Command
             $comune = Comune::updateOrCreate([
                 'nome' => $comuneNome,
                 'provincia' => $provinciaNome,
-            ], [
-                'collegio_uninominale_camera_id' => $collegioUninominale->id
             ]);
+
+            $comune->collegiUninominaliCamera()->attach($collegioUninominale);
 
             $bar->advance();
         }
@@ -124,9 +124,9 @@ class ImportComuniCollegi extends Command
             $comune = Comune::updateOrCreate([
                 'nome' => $comuneNome,
                 'provincia' => $provinciaNome,
-            ], [
-                'collegio_uninominale_senato_id' => $collegioUninominale->id
             ]);
+
+            $comune->collegiUninominaliSenato()->attach($collegioUninominale);
 
             $bar->advance();
         }

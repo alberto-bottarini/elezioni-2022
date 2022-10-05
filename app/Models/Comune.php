@@ -5,22 +5,24 @@ namespace App\Models;
 use App\Models\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Comune extends Model
 {
     use HasFactory;
     use Sluggable;
 
+    public $timestamps = false;
     public $table = 'comuni';
 
-    public function collegioUninominaleCamera()
+    public function collegiUninominaliCamera(): BelongsToMany
     {
-        return $this->belongsTo(CollegioUninominaleCamera::class, 'collegio_uninominale_camera_id');
+        return $this->belongsToMany(CollegioUninominaleCamera::class, 'collegi_uninominali_camera_comuni', 'comune_id', 'collegio_uninominale_camera_id');
     }
 
-    public function collegioUninominaleSenato()
+    public function collegiUninominaliSenato(): BelongsToMany
     {
-        return $this->belongsTo(CollegioUninominaleSenato::class, 'collegio_uninominale_senato_id');
+        return $this->belongsToMany(CollegioUninominaleSenato::class, 'collegi_uninominali_senato_comuni', 'comune_id', 'collegio_uninominale_senato_id');
     }
 
     protected function getDetailRouteName(): string
