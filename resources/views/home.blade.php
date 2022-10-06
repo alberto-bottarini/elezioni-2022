@@ -1,7 +1,10 @@
 @extends('layout')
 
 @section('meta')
-
+    @include('partials.meta', [
+        'title' => 'Elezioniamo 2022 | Tutti i dati delle Elezioni Politiche 2022',
+        'description' => 'Scopri grazie ad Elezioniamo tutti i dati delle Elezioni Politiche 2022: circoscrizioni, collegi, candidati, liste, affluenza e risultati'
+    ])
 @endsection
 
 @section('content')
@@ -92,6 +95,7 @@
     <div class="section">Aggiornamenti del portale</div>
 
     <ul class="text-sm mt-4">
+        <li><b>05/10/22</b> Sistemata relazione tra Comuni e Collegio Uninominali per le grandi città metropolitane</li>
         <li><b>04/10/22</b> Create le pagine dei candidati</li>
         <li><b>03/10/22</b> Create le pagine dei comuni</li>
     </ul>

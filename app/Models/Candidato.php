@@ -50,7 +50,7 @@ class Candidato extends Model
     public function nomeCompleto(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => $this->cognome . ' ' . $this->nome . ' ' . $this->altro_1 . ' ' . $this->altro_2
+            get: fn ($value) => trim($this->cognome . ' ' . $this->nome . ' ' . $this->altro_1 . ' ' . $this->altro_2)
         );
     }
 
