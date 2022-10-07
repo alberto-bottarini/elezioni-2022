@@ -94,6 +94,7 @@
     <div class="section">Aggiornamenti del portale</div>
 
     <ul class="text-sm mt-4">
+        <li><b>07/10/22</b> Aggiunte le affluenze nelle pagine dei comuni + aggiornati metatag delle pagine</li>
         <li><b>06/10/22</b> Aggiornati metatag delle pagine</li>
         <li><b>05/10/22</b> Sistemata relazione tra Comuni e Collegio Uninominali per le grandi città metropolitane</li>
         <li><b>04/10/22</b> Create le pagine dei candidati</li>
