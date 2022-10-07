@@ -2,7 +2,7 @@
 
 @section('meta')
     @include('partials.meta', [
-        'title' => $candidato->nomeCompleto . '| Elezioniamo 2022 | Tutti i dati delle Elezioni Politiche 2022',
+        'title' => $candidato->nomeCompleto . ' | Elezioniamo 2022 | Tutti i dati delle Elezioni Politiche 2022',
         'description' =>
             'Scopri grazie ad Elezioniamo le candidature e i risultati di ' . $candidato->nomeCompleto,
         'og' => asset('og/candidato-' . $candidato->id . '.png'),

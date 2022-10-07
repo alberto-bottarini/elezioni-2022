@@ -2,8 +2,7 @@
 
 @section('meta')
     @include('partials.meta', [
-        'title' => 'Elezioniamo 2022 | Tutti i dati delle Elezioni Politiche 2022',
-        'description' => 'Scopri grazie ad Elezioniamo tutti i dati delle Elezioni Politiche 2022: circoscrizioni, collegi, candidati, liste, affluenza e risultati'
+        'title' => 'Elezioniamo 2022 | Tutti i dati delle Elezioni Politiche 2022'
     ])
 @endsection
 

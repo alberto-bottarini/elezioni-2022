@@ -1,5 +1,14 @@
 @extends('layout')
 
+@section('meta')
+    @include('partials.meta', [
+        'title' => $lista->nome . ' | Elezioniamo 2022 | Tutti i dati delle Elezioni Politiche 2022',
+        'description' =>
+            'Scopri grazie ad Elezioniamo le candidature e i risultati della lista ' . $lista->nome,
+        'og' => asset('og/candidato-' . $candidato->id . '.png'),
+    ])
+@endsection
+
 @section('content')
 
     @include('partials.breadcrumb', [
