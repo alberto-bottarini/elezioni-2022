@@ -43,11 +43,13 @@
         <table class="table">
             <tr class="tr-heading">
                 <th>Collegio plurinominale</th>
+                <th>Lista</th>
             </tr>
             @foreach ($candidato->candidatureCollegiPlurinominaliCamera as $candidatura)
                 <tr class="tr-standard">
                     <td><a href="{{ route('collegio_plurinominale_camera', $candidatura->collegioPlurinominale) }}"
                             class="anchor">@svg('heroicon-o-cursor-arrow-ripple', 'w-5 h-5 inline-block') {{ $candidatura->collegioPlurinominale->nome }}</td>
+                    <td>{{ $candidatura->lista->nome }}</td>
                 </tr>
             @endforeach
         </table>
@@ -77,13 +79,13 @@
         <table class="table">
             <tr class="tr-heading">
                 <th>Collegio plurinominale</th>
-                <th>Numero</th>
+                <th>Lista</th>
             </tr>
             @foreach ($candidato->candidatureCollegiPlurinominaliSenato as $candidatura)
                 <tr class="tr-standard">
                     <td><a href="{{ route('collegio_plurinominale_senato', $candidatura->collegioPlurinominale) }}"
                             class="anchor">@svg('heroicon-o-cursor-arrow-ripple', 'w-5 h-5 inline-block') {{ $candidatura->collegioPlurinominale->nome }}</td>
-                    <td>{{ $candidatura->numero }}</td>
+                    <td>{{ $candidatura->lista->nome }}</td>
                 </tr>
             @endforeach
         </table>

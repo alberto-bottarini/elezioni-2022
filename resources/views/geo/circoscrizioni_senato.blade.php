@@ -1,5 +1,12 @@
 @extends('layout')
 
+@section('meta')
+    @include('partials.meta', [
+        'title' => 'Circoscrizioni Senato | Elezioniamo 2022 | Tutti i dati delle Elezioni Politiche 2022'
+    ])
+@endsection
+
+
 @section('content')
     
     @include('partials.breadcrumb', [
