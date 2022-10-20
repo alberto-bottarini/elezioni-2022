@@ -6,6 +6,7 @@ use App\Models\Candidato;
 use App\Models\CandidaturaCollegioPlurinominaleCamera;
 use App\Models\CandidaturaCollegioPlurinominaleSenato;
 use App\Models\CandidaturaCollegioUninominaleCamera;
+use App\Models\CandidaturaCollegioUninominaleCameraLista;
 use App\Models\CandidaturaCollegioUninominaleSenato;
 use App\Models\Coalizione;
 use App\Models\CollegioPlurinominaleCamera;
@@ -41,7 +42,7 @@ class ImportListe extends Command
     {
         $this->line('Importo dati CAMERA PLURINOMINALE');
 
-        $cameraFile = '/var/data/elezioni-politiche-2022/liste/processing/CAMERA_ITALIA_20220925_pluri.csv';
+        $cameraFile = '/var/eligendo/CAMERA_ITALIA_20220925_pluri.csv';
         $cameraCsv = Reader::createFromPath($cameraFile, 'r');
         $cameraCsv->setHeaderOffset(0);
 
@@ -50,36 +51,40 @@ class ImportListe extends Command
         $bar = $this->output->createProgressBar(iterator_count($records));
         $bar->start();
 
+        $numeroLista = 1;
+        $numeroCandidato = 1;
         foreach ($records as $record) {
-            $collegio = CollegioPlurinominaleCamera::where('nome', $record['desc_ente'])->firstOrFail();
+            $collegio = CollegioPlurinominaleCamera::where('nome', $record['COLLEGIO_PLURINOMINALE'])->first();
+
+            if (!$collegio) {
+                $this->error('Collegio Plurinominale Camera non trovato: ' . $record['COLLEGIO_PLURINOMINALE']);
+                continue;
+            }
 
             Lista::unguard();
             $lista = Lista::firstOrCreate([
-                'nome' => $record['desc_lista'],
+                'nome' => trim($record['DESCR_LISTA']),
             ]);
 
+            $nomeCandidato = str_replace('  ', ' ', $record['CANDIDATO']);
             Candidato::unguard();
             $candidato = Candidato::firstOrCreate([
-                'nome' => $record['nome_c'],
-                'cognome' => $record['cogn_c'],
+                'nome' => $nomeCandidato,
             ], [
-                'altro_1' => $record['altro_1'],
-                'altro_2' => $record['altro_2'],
-                'sesso' => $record['sesso'],
-                'anno_nascita' => $record['dt_nasc'],
-                'luogo_nascita' => $record['l_nasc'],
+                'data_nascita' => $record['DATA_NASCITA'],
+                'luogo_nascita' => $record['LUOGO_NASCITA'],
             ]);
 
             CandidaturaCollegioPlurinominaleCamera::unguard();
             $candidatura = CandidaturaCollegioPlurinominaleCamera::firstOrCreate([
                 'lista_id' => $lista->id,
-                'collegio_plurinominale_camera_id' => $collegio->id
+                'collegio_plurinominale_camera_id' => $collegio->id,
             ], [
-                'numero' => $record['num_lista']
+                'numero' => $numeroLista++,
             ]);
 
             if (!$candidato->candidatureCollegiPlurinominaliCamera()->where('candidatura_collegio_plurinominale_camera_id', $candidatura->id)->exists()) {
-                $candidato->candidatureCollegiPlurinominaliCamera()->attach($candidatura, ['numero' => $record['num_c']]);
+                $candidato->candidatureCollegiPlurinominaliCamera()->attach($candidatura, ['numero' => $numeroCandidato++]);
             }
 
             $bar->advance();
@@ -91,7 +96,7 @@ class ImportListe extends Command
 
         $this->line('Importo dati SENATO PLURINOMINALE');
 
-        $senatoFile = '/var/data/elezioni-politiche-2022/liste/processing/SENATO_ITALIA_20220925_pluri.csv';
+        $senatoFile = '/var/eligendo/SENATO_ITALIA_20220925_pluri.csv';
         $senatoCsv = Reader::createFromPath($senatoFile, 'r');
         $senatoCsv->setHeaderOffset(0);
 
@@ -100,36 +105,40 @@ class ImportListe extends Command
         $bar = $this->output->createProgressBar(iterator_count($records));
         $bar->start();
 
+        $numeroLista = 1;
+        $numeroCandidato = 1;
         foreach ($records as $record) {
-            $collegio = CollegioPlurinominaleSenato::where('nome', $record['desc_ente'])->firstOrFail();
+            $collegio = CollegioPlurinominaleSenato::where('nome', $record['COLLEGIO_PLURINOMINALE'])->first();
+
+            if (!$collegio) {
+                $this->error('Collegio Plurinominale Senato non trovato: ' . $record['COLLEGIO_PLURINOMINALE']);
+                continue;
+            }
 
             Lista::unguard();
             $lista = Lista::firstOrCreate([
-                'nome' => $record['desc_lista'],
+                'nome' => trim($record['DESCR_LISTA']),
             ]);
 
+            $nomeCandidato = str_replace('  ', ' ', $record['CANDIDATO']);
             Candidato::unguard();
             $candidato = Candidato::firstOrCreate([
-                'nome' => $record['nome_c'],
-                'cognome' => $record['cogn_c'],
+                'nome' => $nomeCandidato,
             ], [
-                'altro_1' => $record['altro_1'],
-                'altro_2' => $record['altro_2'],
-                'sesso' => $record['sesso'],
-                'anno_nascita' => $record['dt_nasc'],
-                'luogo_nascita' => $record['l_nasc'],
+                'data_nascita' => $record['DATA_NASCITA'],
+                'luogo_nascita' => $record['LUOGO_NASCITA'],
             ]);
 
             CandidaturaCollegioPlurinominaleSenato::unguard();
             $candidatura = CandidaturaCollegioPlurinominaleSenato::firstOrCreate([
                 'lista_id' => $lista->id,
-                'collegio_plurinominale_senato_id' => $collegio->id
+                'collegio_plurinominale_senato_id' => $collegio->id,
             ], [
-                'numero' => $record['num_lista']
+                'numero' => $numeroLista++,
             ]);
 
             if (!$candidato->candidatureCollegiPlurinominaliSenato()->where('candidatura_collegio_plurinominale_senato_id', $candidatura->id)->exists()) {
-                $candidato->candidatureCollegiPlurinominaliSenato()->attach($candidatura, ['numero' => $record['num_c']]);
+                $candidato->candidatureCollegiPlurinominaliSenato()->attach($candidatura, ['numero' => $numeroCandidato++]);
             }
 
             $bar->advance();
@@ -141,7 +150,7 @@ class ImportListe extends Command
 
         $this->line('Importo dati CAMERA UNINOMINALE');
 
-        $cameraFile = '/var/data/elezioni-politiche-2022/liste/processing/CAMERA_ITALIA_20220925_uni.csv';
+        $cameraFile = '/var/eligendo/CAMERA_ITALIA_20220925_uni.csv';
         $cameraCsv = Reader::createFromPath($cameraFile, 'r');
         $cameraCsv->setHeaderOffset(0);
 
@@ -150,38 +159,37 @@ class ImportListe extends Command
         $bar = $this->output->createProgressBar(iterator_count($records));
         $bar->start();
 
-        $listeFile = '/var/data/elezioni-politiche-2022/liste/processing/CAMERA_ITALIA_20220925_uni_coalizioni.csv';
-        $listeCsv = Reader::createFromPath($listeFile, 'r');
-        $listeCsv->setHeaderOffset(0);
-        $listeRecords = $listeCsv->getRecords();
-        $listeCollection = collect(iterator_to_array($listeRecords));
+        $cameraCollection = collect(iterator_to_array($records));
+        $groupedCollection = $cameraCollection->groupBy(function ($record) {
+            return $record['COLLEGIO_UNINOMINALE'] . '$$$' . $record['CANDIDATO'];
+        });
 
-        $coalizioniFile = '/var/data/elezioni-politiche-2022/liste/processing/CAMERA_ITALIA_20220925_uni_coalizioni_nested.csv';
-        $coalizioniCsv = Reader::createFromPath($coalizioniFile, 'r');
-        $coalizioniCsv->setHeaderOffset(0);
-        $coalizioniRecords = $coalizioniCsv->getRecords();
-        $coalizioniCollection = collect(iterator_to_array($coalizioniRecords));
+        $numeroLista = 1;
+        foreach ($groupedCollection as $group) {
+            $record = $group->first();
+            $collegio = CollegioUninominaleCamera::where('nome', 'like', $record['COLLEGIO_UNINOMINALE'] . '%')->first();
 
-        foreach ($records as $record) {
-            $collegio = CollegioUninominaleCamera::where('nome', 'like', $record['desc_ente'] . '%')->firstOrFail();
+            if (!$collegio) {
+                $this->error('Collegio Uninominale Camera non trovato: ' . $record['COLLEGIO_UNINOMINALE']);
+                continue;
+            }
 
-            $coalizioneRecord = $coalizioniCollection->firstWhere('cod_cand', $record['cod_cand']);
+            $nomeCoalizione = $group->sortBy('DESCR_LISTA')->map(function ($record) {
+                return trim($record['DESCR_LISTA']);
+            })->join(' / ');
 
             Coalizione::unguard();
             $coalizione = Coalizione::firstOrCreate([
-                'nome' => $coalizioneRecord['desc_lista'],
+                'nome' => $nomeCoalizione,
             ]);
 
+            $nomeCandidato = str_replace('  ', ' ', $record['CANDIDATO']);
             Candidato::unguard();
             $candidato = Candidato::firstOrCreate([
-                'nome' => $record['nome_c'],
-                'cognome' => $record['cogn_c'],
+                'nome' => $nomeCandidato,
             ], [
-                'altro_1' => $record['altro_1'],
-                'altro_2' => $record['altro_2'],
-                'sesso' => $record['sesso'],
-                'anno_nascita' => $record['dt_nasc'],
-                'luogo_nascita' => $record['l_nasc'],
+                'data_nascita' => $record['DATA_NASCITA'],
+                'luogo_nascita' => $record['LUOGO_NASCITA'],
             ]);
 
             CandidaturaCollegioUninominaleCamera::unguard();
@@ -190,18 +198,26 @@ class ImportListe extends Command
                 'collegio_uninominale_camera_id' => $collegio->id,
                 'candidato_id' => $candidato->id,
             ], [
-                'numero' => $record['num_c'],
+                'numero' => $numeroLista++,
+                'voti_candidato' => 0,
+                'eletto' => false,
             ]);
 
-            $listeRecord = $listeCollection->where('cod_cand', $record['cod_cand']);
-            foreach ($listeRecord as $listaRecord) {
+            foreach ($group as $listaRecord) {
                 Lista::unguard();
 
                 $lista = Lista::firstOrCreate([
-                    'nome' => $listaRecord['desc_lista'],
+                    'nome' => trim($listaRecord['DESCR_LISTA']),
                 ]);
 
-                $candidatura->liste()->attach($lista, ['numero' => $listaRecord['num_lista']]);
+                CandidaturaCollegioUninominaleCameraLista::updateOrCreate([
+                    'lista_id' => $lista->id,
+                    'candidatura_collegio_uninominale_camera_id' => $candidatura->id,
+                ], [
+                    'numero' => $numeroLista++,
+                    'voti' => 0,
+                    'percentuale' => 0,
+                ]);
             }
 
             $bar->advance();
@@ -213,7 +229,7 @@ class ImportListe extends Command
 
         $this->line('Importo dati SENATO UNINOMINALE');
 
-        $senatoFile = '/var/data/elezioni-politiche-2022/liste/processing/SENATO_ITALIA_20220925_uni.csv';
+        $senatoFile = '/var/eligendo/SENATO_ITALIA_20220925_uni.csv';
         $senatoCsv = Reader::createFromPath($senatoFile, 'r');
         $senatoCsv->setHeaderOffset(0);
 
@@ -222,38 +238,37 @@ class ImportListe extends Command
         $bar = $this->output->createProgressBar(iterator_count($records));
         $bar->start();
 
-        $listeFile = '/var/data/elezioni-politiche-2022/liste/processing/SENATO_ITALIA_20220925_uni_coalizioni.csv';
-        $listeCsv = Reader::createFromPath($listeFile, 'r');
-        $listeCsv->setHeaderOffset(0);
-        $listeRecords = $listeCsv->getRecords();
-        $listeCollection = collect(iterator_to_array($listeRecords));
+        $senatoCollection = collect(iterator_to_array($records));
+        $groupedCollection = $senatoCollection->groupBy(function ($record) {
+            return $record['COLLEGIO_UNINOMINALE'] . '$$$' . $record['CANDIDATO'];
+        });
 
-        $coalizioniFile = '/var/data/elezioni-politiche-2022/liste/processing/SENATO_ITALIA_20220925_uni_coalizioni_nested.csv';
-        $coalizioniCsv = Reader::createFromPath($coalizioniFile, 'r');
-        $coalizioniCsv->setHeaderOffset(0);
-        $coalizioniRecords = $coalizioniCsv->getRecords();
-        $coalizioniCollection = collect(iterator_to_array($coalizioniRecords));
+        $numeroLista = 1;
+        foreach ($groupedCollection as $group) {
+            $record = $group->first();
+            $collegio = CollegioUninominaleSenato::where('nome', 'like', $record['COLLEGIO_UNINOMINALE'] . '%')->first();
 
-        foreach ($records as $record) {
-            $collegio = CollegioUninominaleSenato::where('nome', 'like', $record['desc_ente'] . '%')->firstOrFail();
+            if (!$collegio) {
+                $this->error('Collegio Uninominale Senato non trovato: ' . $record['COLLEGIO_UNINOMINALE']);
+                continue;
+            }
 
-            $coalizioneRecord = $coalizioniCollection->firstWhere('cod_cand', $record['cod_cand']);
+            $nomeCoalizione = $group->sortBy('DESCR_LISTA')->map(function ($record) {
+                return trim($record['DESCR_LISTA']);
+            })->join(' / ');
 
             Coalizione::unguard();
             $coalizione = Coalizione::firstOrCreate([
-                'nome' => $coalizioneRecord['desc_lista'],
+                'nome' => $nomeCoalizione,
             ]);
 
+            $nomeCandidato = str_replace('  ', ' ', $record['CANDIDATO']);
             Candidato::unguard();
             $candidato = Candidato::firstOrCreate([
-                'nome' => $record['nome_c'],
-                'cognome' => $record['cogn_c'],
+                'nome' => $nomeCandidato,
             ], [
-                'altro_1' => $record['altro_1'],
-                'altro_2' => $record['altro_2'],
-                'sesso' => $record['sesso'],
-                'anno_nascita' => $record['dt_nasc'],
-                'luogo_nascita' => $record['l_nasc'],
+                'data_nascita' => $record['DATA_NASCITA'],
+                'luogo_nascita' => $record['LUOGO_NASCITA'],
             ]);
 
             CandidaturaCollegioUninominaleSenato::unguard();
@@ -262,24 +277,27 @@ class ImportListe extends Command
                 'collegio_uninominale_senato_id' => $collegio->id,
                 'candidato_id' => $candidato->id,
             ], [
-                'numero' => $record['num_c'],
+                'numero' => $numeroLista++,
+                'voti_candidato' => 0,
+                'eletto' => false,
             ]);
 
-            $listeRecord = $listeCollection->where('cod_cand', $record['cod_cand']);
-            foreach ($listeRecord as $listaRecord) {
+            foreach ($group as $listaRecord) {
                 Lista::unguard();
 
                 $lista = Lista::firstOrCreate([
-                    'nome' => $listaRecord['desc_lista'],
+                    'nome' => trim($listaRecord['DESCR_LISTA']),
                 ]);
 
-                $candidatura->liste()->attach($lista, ['numero' => $listaRecord['num_lista']]);
+                $candidatura->liste()->attach($lista, ['numero' => $numeroLista++, 'voti' => 0, 'percentuale' => 0]);
             }
 
             $bar->advance();
         }
 
         $bar->finish();
+
+        $this->newLine();
 
         return Command::SUCCESS;
     }

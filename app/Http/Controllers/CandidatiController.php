@@ -8,8 +8,7 @@ class CandidatiController extends Controller
 {
     public function candidati()
     {
-        $candidati = Candidato::orderBy('cognome')
-            ->orderBy('nome')
+        $candidati = Candidato::orderBy('nome')
             ->get();
 
         return view('candidati.candidati')

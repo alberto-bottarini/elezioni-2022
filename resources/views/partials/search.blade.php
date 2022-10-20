@@ -16,6 +16,8 @@
                                 @svg('heroicon-o-map-pin', 'w-5 h-5 inline-block')    
                             @elseif($result['type'] == 'candidato')
                                 @svg('heroicon-o-user-circle', 'w-5 h-5 inline-block')   
+                            @elseif($result['type'] == 'lista')
+                                @svg('heroicon-o-list-bullet', 'w-5 h-5 inline-block')   
                             @endif
                             {{ $result['label'] }}
                         </a>

@@ -82,5 +82,7 @@ return new class extends Migration
         Schema::dropIfExists('circoscrizioni_senato');
         Schema::dropIfExists('collegi_plurinominali_senato');
         Schema::dropIfExists('collegi_uninominali_senato');
+        Schema::dropIfExists('collegi_uninominali_camera_comuni');
+        Schema::dropIfExists('collegi_uninominali_senato_comuni');
     }
 };

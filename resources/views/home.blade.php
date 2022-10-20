@@ -8,6 +8,10 @@
 
 @section('content')
 
+    <div class="section">Elezioniamo 2022</div>
+    <p>Benvenuto in Elezioniamo 2022, il portale che mette a disposizione di tutti i dati delle Elezioni Politiche 2022.</p>
+    <p>Utilizza il form di ricerca qua sotto per cercare un comune, una lista o un candidato, oppure naviga con i pulsanti piú in basso.</p>
+
     <div x-data="searchComponent">
         <div class="section">Ricerca</div>
 
@@ -41,9 +45,9 @@
 
     <div class="section">Sezioni del portale</div>
 
-    <div class="flex flex-wrap gap-2 mt-4">
+    <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mt-4 gap-2">
 
-        <div class="w-1/2 md:w-1/4 lg:w-1/6">
+        <div>
             <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
                 <a href="{{ route('circoscrizioni_camera') }}" class="block py-4 px-2">
                     @svg('heroicon-o-map', 'w-5 h-5 inline-block mb-2')<br>
@@ -52,7 +56,7 @@
             </div>
         </div>
 
-        <div class="w-1/2 md:w-1/4 lg:w-1/6">
+        <div>
             <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
                 <a href="{{ route('circoscrizioni_senato') }}" class="block py-4 px-2">
                     @svg('heroicon-o-map', 'w-5 h-5 inline-block mb-2')<br>
@@ -61,7 +65,7 @@
             </div>
         </div>
 
-        <div class="w-1/2 md:w-1/4 lg:w-1/6">
+        <div>
             <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
                 <a href="{{ route('comuni') }}" class="block py-4 px-2">
                     @svg('heroicon-o-map-pin', 'w-5 h-5 inline-block mb-2')<br>
@@ -70,7 +74,7 @@
             </div>
         </div>
 
-        <div class="w-1/2 md:w-1/4 lg:w-1/6">
+        <div>
             <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
                 <a href="{{ route('liste') }}" class="block py-4 px-2">
                     @svg('heroicon-o-list-bullet', 'w-5 h-5 inline-block mb-2')<br>
@@ -79,7 +83,16 @@
             </div>
         </div>
 
-        <div class="w-1/2 md:w-1/4 lg:w-1/6">
+        <div>
+            <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
+                <a href="{{ route('coalizioni') }}" class="block py-4 px-2">
+                    @svg('heroicon-o-queue-list', 'w-5 h-5 inline-block mb-2')<br>
+                    Elenco coalizioni
+                </a>
+            </div>
+        </div>
+
+        <div>
             <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
                 <a href="{{ route('candidati') }}" class="block py-4 px-2">
                     @svg('heroicon-o-user-circle', 'w-5 h-5 inline-block mb-2')<br>
@@ -88,12 +101,23 @@
             </div>
         </div>
 
+        {{-- <div>
+            <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
+                <a href="{{ route('risultati_camera') }}" class="block py-4 px-2">
+                    @svg('heroicon-o-user-circle', 'w-5 h-5 inline-block mb-2')<br>
+                    Risultati Camera
+                </a>
+            </div>
+        </div> --}}
+
 
     </div>
 
     <div class="section">Aggiornamenti del portale</div>
 
     <ul class="text-sm mt-4">
+        <li><b>20/10/22</b> Importati e sanificati i risultati della Camera</li>
+        <li><b>18/10/22</b> Aggiunte i risultati nelle pagine dei comuni + corretti un po' di bug</li>
         <li><b>13/10/22</b> Aggiunte sitemap</li>
         <li><b>07/10/22</b> Aggiunte le affluenze nelle pagine dei comuni + aggiornati metatag delle pagine</li>
         <li><b>06/10/22</b> Aggiornati metatag delle pagine</li>

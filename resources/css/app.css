@@ -48,6 +48,10 @@ th, td {
     @apply w-full text-sm;
 }
 
+.table-small {
+    @apply text-xs;
+}
+
 footer a {
     @apply underline text-sky-300;
 }

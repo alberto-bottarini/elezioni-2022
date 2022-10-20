@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('liste', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
+            $table->unsignedBigInteger('coalizione_id')->nullable()->references('id')->on('coalizioni');
         });
 
         Schema::create('coalizioni', function (Blueprint $table) {
@@ -26,12 +27,8 @@ return new class extends Migration
         Schema::create('candidati', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->string('cognome');
-            $table->string('anno_nascita', 4);
+            $table->string('data_nascita');
             $table->string('luogo_nascita');
-            $table->string('altro_1');
-            $table->string('altro_2');
-            $table->string('sesso', 1);
         });
 
         Schema::create('candidature_collegi_plurinominali_camera', function (Blueprint $table) {

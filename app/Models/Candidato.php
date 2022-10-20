@@ -47,32 +47,6 @@ class Candidato extends Model
             ->orderBy('liste.nome');
     }
 
-    public function nomeCompleto(): Attribute
-    {
-        return new Attribute(
-            get: fn ($value) => trim($this->cognome . ' ' . $this->nome . ' ' . $this->altro_1 . ' ' . $this->altro_2)
-        );
-    }
-
-    public function getRouteKey()
-    {
-        return Str::slug($this->nomeCompleto) . '-' . $this->id;
-    }
-
-    public function resolveRouteBinding($value, $field = null)
-    {
-        $parts = explode('-', $value);
-        $id = array_pop($parts);
-        $slug = implode('-', $parts);
-
-        $model = self::where('id', $id)->firstOrFail();
-        if (Str::slug($model->nomeCompleto) != $slug) {
-            throw new HttpResponseException(redirect(route($this->getDetailRouteName(), $model)));
-        }
-
-        return $model;
-    }
-    
     protected function getDetailRouteName(): string
     {
         return 'candidato';

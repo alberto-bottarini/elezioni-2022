@@ -4,6 +4,7 @@ use App\Http\Controllers\CandidatiController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GeoController;
 use App\Http\Controllers\ListeController;
+use App\Http\Controllers\RisultatiController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,14 +34,21 @@ Route::get('/collegio-uninominale-senato/{collegioUninominale}', [GeoController:
 Route::get('/comuni', [GeoController::class, 'comuni'])->name('comuni');
 Route::get('/comune/{comune}', [GeoController::class, 'comune'])->name('comune');
 
-Route::get('/liste', [ListeController::class, 'liste'])->name('liste');
+Route::get('/elenco-liste', [ListeController::class, 'liste'])->name('liste');
 Route::get('/lista/{lista}', [ListeController::class, 'lista'])->name('lista');
 Route::get('/lista/{lista}/collegi-plurinominali-camera', [ListeController::class, 'listaPlurinominaliCamera'])->name('lista_collegi_plurinominali_camera');
 Route::get('/lista/{lista}/collegi-uninominali-camera', [ListeController::class, 'listaUninominaliCamera'])->name('lista_collegi_uninominali_camera');
 Route::get('/lista/{lista}/collegi-plurinominali-senato', [ListeController::class, 'listaPlurinominaliSenato'])->name('lista_collegi_plurinominali_senato');
 Route::get('/lista/{lista}/collegi-uninominali-senato', [ListeController::class, 'listaUninominaliSenato'])->name('lista_collegi_uninominali_senato');
 
+Route::get('/coalizioni', [ListeController::class, 'coalizioni'])->name('coalizioni');
+Route::get('/coalizione/{coalizione}', [ListeController::class, 'coalizione'])->name('coalizione');
+Route::get('/coalizione/{coalizione}/collegi-uninominali-camera', [ListeController::class, 'coalizioneUninominaliCamera'])->name('coalizione_collegi_uninominali_camera');
+Route::get('/coalizione/{coalizione}/collegi-uninominali-senato', [ListeController::class, 'coalizioneUninominaliSenato'])->name('coalizione_collegi_uninominali_senato');
+
 Route::get('/candidati', [CandidatiController::class, 'candidati'])->name('candidati');
-Route::get('/candidati/{candidato}', [CandidatiController::class, 'candidato'])->name('candidato');
+Route::get('/candidato/{candidato}', [CandidatiController::class, 'candidato'])->name('candidato');
+
+Route::get('/risultati-camera', [RisultatiController::class, 'camera'])->name('risultati_camera');
 
 Route::post('/ricerca', [SearchController::class, 'search'])->name('ricerca');

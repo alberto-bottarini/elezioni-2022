@@ -81,7 +81,6 @@
             </td>
             <td>
                 <b>{{ number_format($comune->affluenza->elettori, 0, 2, '.') }}</b>
-                ({{ number_format($comune->affluenza->elettori_m, 0, 2, '.') }} maschi e {{ number_format($comune->affluenza->elettori_f, 0, 2, '.') }} femmine)
             </td>
         </tr>
 
@@ -90,8 +89,7 @@
                 Votanti
             </td>
             <td>
-                <b>{{ number_format($comune->affluenza->voti_23, 0, 2, '.') }}</b>
-                ({{ number_format($comune->affluenza->voti_23_m, 0, 2, '.') }} maschi e {{ number_format($comune->affluenza->voti_23_f, 0, 2, '.') }} femmine)
+                <b>{{ number_format($comune->affluenza->voti, 0, 2, '.') }}</b>
             </td>
         </tr>
 
@@ -101,33 +99,70 @@
             </td>
             <td>
                 <div class="bg-sky-200 relative h-8">
-                    <div class="bg-sky-400 absolute h-8 p-2 text-white font-bold text-center" style="width: {{ $comune->affluenza->percentuale_23 }}%;"">{{ $comune->affluenza->percentuale_23 }}%</div> 
+                    <div class="bg-sky-400 absolute h-8 p-2 text-white font-bold text-center" style="width: {{ $comune->affluenza->voti / $comune->affluenza->elettori *  100 }}%;"">{{ round($comune->affluenza->voti / $comune->affluenza->elettori * 100, 2) }}%</div> 
                 </div>
             </td>
         </tr>
     </table>
 
+    @foreach($comune->collegiUninominaliCamera as $collegio)
+        <h2 class="section">Risultati Camera {{ $collegio->nome }}</h2>
 
+        <table class="table">
+            <tr class="tr-heading">
+                <th>Nome Candidato</th>
+                <th>Voti totali</th>
+                <th>Voti al candidato</th>
+                <th>Voti alle liste</th>
+            </tr>
+            @foreach($collegio->candidature->sortByDesc(function($candidatura) {
+                return $candidatura->risultati->first()->voti;
+            }) as $candidatura)
+                <tr class="tr-standard">
+                    <td><a href="{{ route('candidato', $candidatura->candidato) }}" class="anchor">@svg('heroicon-o-user-circle', 'w-5 h-5 inline-block') {{ $candidatura->candidato->nome }}</a></td>
+                    <td>{{ format_voti($candidatura->risultati->first()->voti) }}</td>
+                    <td>{{ format_voti($candidatura->risultati->first()->voti_candidato) }}</td>
+                    <td class="w-1/2 px-0">
+                        <table class="table table-small">
+                            <tr class="tr-heading">
+                                <th class="w-5/6">Lista</th>
+                                <th class="w-1/6">Voti</th>
+                            </tr>
+                            @foreach($candidatura->candidatureLista->sortByDesc(function($lista) {
+                                return $lista->risultati->first()->voti;
+                            }) as $candidaturaLista)
+                                <tr class="tr-standard">
+                                    <td class="w-5/6"><a href="{{ route('lista', $candidaturaLista->lista) }}" class="anchor">
+                                        @svg('heroicon-o-list-bullet', 'w-3 h-3 inline-block mr-2'){{ $candidaturaLista->lista->nome }}</a></td>
+                                    <td class="w-1/6">{{ format_voti($candidaturaLista->risultati->first()->voti) }}</td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </td>
+                </tr>
+            @endforeach
+        </table>
+    @endforeach
 
     @foreach($comune->collegiUninominaliCamera as $collegio)
-        <h2 class="section">Candidati {{ $collegio->nome }}</h2>
+        <h2 class="section">Candidati Uninominale Camera {{ $collegio->nome }}</h2>
 
         @include('partials.geo.candidati_uninominale', ['candidature' => $collegio->candidature ])
     @endforeach
 
-    <h2 class="section">Candidati {{ $comune->collegiUninominaliCamera->first()->collegioPlurinominale->nome }}</h2>
+    <h2 class="section">Candidati Plurinominale Camera {{ $comune->collegiUninominaliCamera->first()->collegioPlurinominale->nome }}</h2>
 
     @include('partials.geo.candidati_plurinominale', ['candidature' => $comune->collegiUninominaliCamera->first()->collegioPlurinominale->candidature ])
 
 
-    @foreach($comune->collegiUninominaliSenato as $collegio)
-        <h2 class="section">Candidati {{ $collegio->nome }}</h2>
+    {{-- @foreach($comune->collegiUninominaliSenato as $collegio)
+        <h2 class="section">Candidati Uninominale Senato {{ $collegio->nome }}</h2>
 
         @include('partials.geo.candidati_uninominale', ['candidature' => $collegio->candidature ])
     @endforeach
 
-    <h2 class="section">Candidati {{ $comune->collegiUninominaliSenato->first()->collegioPlurinominale->nome }}</h2>
+    <h2 class="section">Candidati Plurinominale Senato {{ $comune->collegiUninominaliSenato->first()->collegioPlurinominale->nome }}</h2>
 
-    @include('partials.geo.candidati_plurinominale', ['candidature' => $comune->collegiUninominaliCamera->first()->collegioPlurinominale->candidature ])
+    @include('partials.geo.candidati_plurinominale', ['candidature' => $comune->collegiUninominaliSenato->first()->collegioPlurinominale->candidature ]) --}}
 
 @endsection

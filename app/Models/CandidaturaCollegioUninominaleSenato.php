@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CandidaturaCollegioUninominaleSenato extends Model
 {
@@ -14,9 +14,9 @@ class CandidaturaCollegioUninominaleSenato extends Model
     public $timestamps = false;
     public $table = 'candidature_collegi_uninominale_senato';
 
-    public function liste(): BelongsToMany
+    public function candidatureLista(): HasMany
     {
-        return $this->belongsToMany(Lista::class, 'candidature_collegi_uninominale_senato_liste', 'candidatura_collegio_uninominale_senato_id', 'lista_id');
+        return $this->hasMany(CandidaturaCollegioUninominaleSenatoLista::class, 'candidatura_collegio_uninominale_senato_id');
     }
 
     public function candidato(): BelongsTo

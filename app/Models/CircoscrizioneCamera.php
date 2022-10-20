@@ -21,6 +21,11 @@ class CircoscrizioneCamera extends Model
         return $this->hasMany(CollegioPlurinominaleCamera::class, 'circoscrizione_id');
     }
 
+    public function risultati()
+    {
+        return $this->hasMany(RisultatoCircoscrizioneCamera::class, 'circoscrizione_id');
+    }
+
     protected function getDetailRouteName(): string
     {
         return 'circoscrizione_camera';

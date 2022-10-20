@@ -2,9 +2,9 @@
 
 @section('meta')
     @include('partials.meta', [
-        'title' => $candidato->nomeCompleto . ' | Elezioniamo 2022 | Tutti i dati delle Elezioni Politiche 2022',
+        'title' => $candidato->nome . ' | Elezioniamo 2022 | Tutti i dati delle Elezioni Politiche 2022',
         'description' =>
-            'Scopri grazie ad Elezioniamo le candidature e i risultati di ' . $candidato->nomeCompleto,
+            'Scopri grazie ad Elezioniamo le candidature e i risultati di ' . $candidato->nome,
         'og' => asset('og/candidato/' . $candidato->id . '.png'),
     ])
 @endsection
@@ -16,7 +16,7 @@
             ['route' => route('home'), 'label' => 'Home'],
             ['route' => route('candidati'), 'label' => 'Candidati'],
         ],
-        'title' => $candidato->nomeCompleto,
+        'title' => $candidato->nome,
     ])
 
     @if ($candidato->candidatureCollegiUninominaliCamera->count())

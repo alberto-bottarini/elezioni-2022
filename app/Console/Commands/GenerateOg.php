@@ -39,7 +39,7 @@ class GenerateOg extends Command
             $logo->resize(130, 130);
 
             Candidato::each(function ($candidato) use ($bar, $logo) {
-                $l = strlen($candidato->nomeCompleto);
+                $l = strlen($candidato->nome);
                 $img = Image::canvas(1200, 630, '#075985');
                 $img->insert($logo, 'top', 0, 60);
                 $img->text('Scopri le candidature e i risultati di ', 600, 330, function ($font) {
@@ -48,7 +48,7 @@ class GenerateOg extends Command
                     $font->color('#fdf6e3');
                     $font->align('center');
                 });
-                $img->text($candidato->nomeCompleto, 600, 430, function ($font) use ($l) {
+                $img->text($candidato->nome, 600, 430, function ($font) use ($l) {
                     $font->file(resource_path('fonts/Lato-Regular.ttf'));
                     $font->size($this->getSizeByLength($l));
                     $font->color('#fdf6e3');

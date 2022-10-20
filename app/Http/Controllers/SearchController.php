@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Candidato;
 use App\Models\Comune;
+use App\Models\Lista;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\List_;
 
 class SearchController extends Controller
 {
@@ -35,17 +37,32 @@ class SearchController extends Controller
         );
 
         $results = array_merge($results, Candidato::whereLike('nome', $search)
-            ->orWhereLike('cognome', $search)
             ->get()
             ->map(function($candidato) {
                 return [
-                    'label' => $candidato->nome . ' ' . $candidato->cognome,
+                    'label' => $candidato->nome,
                     'route' => route('candidato', $candidato),
                     'type' => 'candidato'
                 ];
             })
             ->toArray()
         );
+
+        $results = array_merge($results, Lista::whereLike('nome', $search)
+            ->get()
+            ->map(function($lista) {
+                return [
+                    'label' => $lista->nome,
+                    'route' => route('lista', $lista),
+                    'type' => 'lista'
+                ];
+            })
+            ->toArray()
+        );
+
+        usort($results, function($a, $b) {
+            return $a['label'] <=> $b['label'];
+        });
 
         return view('partials.search')
             ->with('results', $results);
