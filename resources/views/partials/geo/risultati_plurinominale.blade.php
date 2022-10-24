@@ -6,15 +6,15 @@
         <th>Liste</th>
     </tr>
 
-    @foreach ($risultatiNested as $coalizioneId => $risultatoNested)
+    @foreach ($risultatiPerCoalizione as $coalizioneId => $coalizioneItem)
         <tr class="tr-standard">
             <td>
                 <a href="{{ route('coalizione', $coalizioni->firstWhere('id', $coalizioneId)) }}"class="anchor">
                     @svg('heroicon-o-queue-list', 'w-5 h-5 inline-block')
                     {{ $coalizioni->firstWhere('id', $coalizioneId)->nome }}
                 </td>
-            <td>{{ format_voti($risultatoNested['voti']) }}</td>
-            <td>{{ format_percentuali($risultatoNested['percentuale'], 2) }}</td>
+            <td>{{ format_voti($coalizioneItem['voti']) }}</td>
+            <td>{{ format_percentuali($coalizioneItem['percentuale']) }}</td>
             <td>
                 <table class="table table-small">
                     <tr class="tr-heading">
@@ -22,7 +22,7 @@
                         <th class="w-1/6">Voti</th>
                         <th class="w-1/6">%</th>
                     </tr>
-                    @foreach ($risultatoNested['risultati'] as $risultato)
+                    @foreach ($coalizioneItem['risultati'] as $risultato)
                         <tr class="tr-standard">
                             <td class="w-4/6">
                                 <a class="anchor" href="{{ route('lista', $risultato->lista) }}">

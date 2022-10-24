@@ -56,9 +56,9 @@
                                 <td class="w-5/6"><a href="{{ route('lista', $candidaturaLista->lista) }}" class="anchor">
                                     @svg('heroicon-o-list-bullet', 'w-3 h-3 inline-block mr-2'){{ $candidaturaLista->lista->nome }}</a></td>
                                 <td class="w-1/6">{{ format_voti(
-                                    $candidaturaLista->risultati->sum('voti') + (
+                                    $candidaturaLista->risultati->sum('voti') + ($sum > 0 ? (
                                         $candidatura->risultati->sum('voti_candidato') * $candidaturaLista->risultati->sum('voti') / $sum
-                                    )) }}
+                                    ) : 0)) }}
                                 </td>
                             </tr>
                         @endforeach

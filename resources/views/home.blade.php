@@ -116,6 +116,7 @@
     <div class="section">Aggiornamenti del portale</div>
 
     <ul class="text-sm mt-4">
+        <li><b>24/10/22</b> Importati risultati Camera per Val d'Aosta</li>
         <li><b>20/10/22</b> Importati e sanificati i risultati della Camera</li>
         <li><b>18/10/22</b> Aggiunte i risultati nelle pagine dei comuni + corretti un po' di bug</li>
         <li><b>13/10/22</b> Aggiunte sitemap</li>

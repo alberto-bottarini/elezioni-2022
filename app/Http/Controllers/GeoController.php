@@ -10,6 +10,8 @@ use App\Models\CollegioPlurinominaleSenato;
 use App\Models\CollegioUninominaleCamera;
 use App\Models\CollegioUninominaleSenato;
 use App\Models\Comune;
+use App\Models\RisultatoCamera;
+use DivisionByZeroError;
 
 class GeoController extends Controller
 {
@@ -25,42 +27,22 @@ class GeoController extends Controller
 
     public function circoscrizioneCamera(CircoscrizioneCamera $circoscrizione)
     {
-        $candidatureUninominaliListe = collect();
-        foreach ($circoscrizione->collegiPlurinominali as $collegioPlurinominale) {
-            foreach ($collegioPlurinominale->collegiUninominali()->first()->candidature as $candidatura) {
-                $candidatureUninominaliListe = $candidatureUninominaliListe->merge($candidatura->candidatureLista);
-            }
-        }
-
-        $coalizioni = Coalizione::all()->keyBy('id');
-        $risultatiNested = $this->getRisultatiNested(
-            $circoscrizione->risultati,
-            $candidatureUninominaliListe
-        );
+        $risultatiPerCoalizione = $this->groupRisultatiByCoalizione($circoscrizione->risultati);
 
         return view('geo.circoscrizione_camera')
             ->with('circoscrizione', $circoscrizione)
-            ->with('coalizioni', $coalizioni)
-            ->with('risultatiNested', $risultatiNested);
+            ->with('coalizioni', Coalizione::all())
+            ->with('risultatiPerCoalizione', $risultatiPerCoalizione);
     }
 
     public function collegioPlurinominaleCamera(CollegioPlurinominaleCamera $collegioPlurinominale)
     {
-        $candidatureUninominaliListe = collect();
-        foreach ($collegioPlurinominale->collegiUninominali()->first()->candidature as $candidatura) {
-            $candidatureUninominaliListe = $candidatureUninominaliListe->merge($candidatura->candidatureLista);
-        }
-
-        $coalizioni = Coalizione::all()->keyBy('id');
-        $risultatiNested = $this->getRisultatiNested(
-            $collegioPlurinominale->risultati,
-            $candidatureUninominaliListe
-        );
+        $risultatiPerCoalizione = $this->groupRisultatiByCoalizione($collegioPlurinominale->risultati);
 
         return view('geo.collegio_plurinominale_camera')
             ->with('collegio', $collegioPlurinominale)
-            ->with('coalizioni', $coalizioni)
-            ->with('risultatiNested', $risultatiNested);
+            ->with('coalizioni', Coalizione::all())
+            ->with('risultatiPerCoalizione', $risultatiPerCoalizione);
     }
 
     public function collegioUninominaleCamera(CollegioUninominaleCamera $collegioUninominale)
@@ -131,33 +113,51 @@ class GeoController extends Controller
             ->with('comune', $comune);
     }
 
-    private function getRisultatiNested($risultati, $candidatureUninominali)
+    public function camera()
     {
-        return $risultati->reduce(function ($carry, $risultato) use ($candidatureUninominali) {
-            $coalizioneId = $candidatureUninominali->firstWhere('lista_id', $risultato->lista_id)->candidatura->coalizione_id;
-            if (!$carry->has($coalizioneId)) {
-                $carry->put($coalizioneId, [
-                    'voti' => 0,
-                    'risultati' => [],
+        $risultatiPerCoalizione = $this->groupRisultatiByCoalizione(RisultatoCamera::all());
+        $risultatiVDA = $this->groupRisultatiByCoalizione(CircoscrizioneCamera::where('id', 3)->first()->risultati);
+
+        return view('geo.camera')
+            ->with('coalizioni', Coalizione::all())
+            ->with('risultatiPerCoalizione', $risultatiPerCoalizione)
+            ->with('risultatiVDA', $risultatiVDA);
+    }
+
+    private function groupRisultatiByCoalizione($risultati)
+    {
+        $risultatiPerLista = $risultati->groupBy('lista_id');
+
+        $risultatiPerCoalizione = Coalizione::all()->reduce(function ($carry, $coalizione) use ($risultatiPerLista) {
+            $risultatiListe = $coalizione->liste->reduce(function ($carry, $lista) use ($risultatiPerLista) {
+                $risultati = $risultatiPerLista->get($lista->id);
+                if ($risultati && $risultati->count() > 0) {
+                    return $carry->merge($risultati);
+                }
+
+                return $carry;
+            }, collect());
+
+            if ($risultatiListe->count()) {
+                $carry->put($coalizione->id, [
+                    'risultati' => $risultatiListe->sortByDesc('voti'),
+                    'voti' => $risultatiListe->sum('voti'),
                 ]);
             }
 
-            $item = $carry->get($coalizioneId);
-            $item['voti'] += $risultato->voti;
-            $item['risultati'][] = $risultato;
-
-            usort($item['risultati'], function ($a, $b) {
-                return $b->voti <=> $a->voti;
-            });
-
-            $carry->put($coalizioneId, $item);
-
             return $carry;
-        }, collect())->map(function ($item) use($risultati) {
-            $sum = $risultati->sum('voti');
-            $item['percentuale'] = round($item['voti'] / $sum * 100, 2);
+        }, collect());
 
-            return $item;
-        })->sortByDesc('voti');
+        return $risultatiPerCoalizione->map(function ($coalizioneItem) use ($risultatiPerCoalizione) {
+            try {
+                $coalizioneItem['percentuale'] = $coalizioneItem['voti'] / $risultatiPerCoalizione->sum(fn ($item) => $item['voti']) * 100;
+            } catch (DivisionByZeroError) {
+                $coalizioneItem['percentuale'] = 0;
+            }
+
+            return $coalizioneItem;
+        })->sortByDesc(function ($coalizioneItem) {
+            return $coalizioneItem['percentuale'];
+        });
     }
 }

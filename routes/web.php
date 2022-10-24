@@ -49,6 +49,6 @@ Route::get('/coalizione/{coalizione}/collegi-uninominali-senato', [ListeControll
 Route::get('/candidati', [CandidatiController::class, 'candidati'])->name('candidati');
 Route::get('/candidato/{candidato}', [CandidatiController::class, 'candidato'])->name('candidato');
 
-Route::get('/risultati-camera', [RisultatiController::class, 'camera'])->name('risultati_camera');
+Route::get('/risultati-camera', [GeoController::class, 'camera'])->name('risultati_camera');
 
 Route::post('/ricerca', [SearchController::class, 'search'])->name('ricerca');

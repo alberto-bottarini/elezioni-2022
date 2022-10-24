@@ -23,7 +23,7 @@ class ImportRisultati extends Command
      *
      * @var string
      */
-    protected $signature = 'elezioni2022:risultati {--palazzo=}';
+    protected $signature = 'elezioni2022:import-risultati {--palazzo=}';
 
     /**
      * The console command description.
@@ -163,7 +163,7 @@ class ImportRisultati extends Command
         foreach ($palazzi as $palazzo) {
             $this->line('Importo risultati ' . $palazzo);
 
-            $comuniFile = '/var/eligendo/Politiche2022_Scrutini_' . ucfirst($palazzo) . '_Italia.csv';
+            $comuniFile = '/var/eligendo/siracusa.csv';
             $comuniCsv = Reader::createFromPath($comuniFile, 'r');
             $comuniCsv->setHeaderOffset(0);
             $comuniCsv->setDelimiter(';');
