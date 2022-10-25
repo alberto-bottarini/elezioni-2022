@@ -47,6 +47,7 @@ class GenerateSitemap extends Command
 
         $geoSitemap = Sitemap::create()
             ->add(route('circoscrizioni_camera'))
+            ->add(route('risultati_camera'))
             ->add(route('circoscrizioni_senato'));
 
         $geoSitemap = CircoscrizioneCamera::all()->reduce(function ($geoSitemap, $circoscrizione) {

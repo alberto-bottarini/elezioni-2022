@@ -3,6 +3,7 @@
         <th>Nome Coalizione</th>
         <th>Voti</th>
         <th>%</th>
+        <th>Grafico</th>
         <th>Liste</th>
     </tr>
 
@@ -15,6 +16,59 @@
                 </td>
             <td>{{ format_voti($coalizioneItem['voti']) }}</td>
             <td>{{ format_percentuali($coalizioneItem['percentuale']) }}</td>
+            <td>
+                <div class="h-[60px] w-[60px]">
+                    @php $rand = uniqid(); @endphp
+                    <canvas id="chart-{{ $rand }}"></canvas>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var data = {
+                                labels: [
+                                    @foreach ($risultatiPerCoalizione as $subCoalizioneId => $subCoalizioneItem)
+                                        "{{ $coalizioni->firstWhere('id', $subCoalizioneId)->nome }}",
+                                    @endforeach
+                                ],
+                                datasets: [{
+                                    label: 'Risultati Camera',
+                                    data: [
+                                        @foreach ($risultatiPerCoalizione as $subCoalizioneId => $subCoalizioneItem)
+                                            {{ $subCoalizioneItem['voti'] }},
+                                        @endforeach
+                                    ],
+                                    backgroundColor: [
+                                        @foreach ($risultatiPerCoalizione as $subCoalizioneId => $subCoalizioneItem)
+                                            @if($coalizioneId == $subCoalizioneId )
+                                                'rgb(125 211 252)', //bg-sky-600 
+                                            @else
+                                                'rgb(240 249 255)', //bg-slate-300
+                                            @endif
+                                        @endforeach
+                                    ],
+                                    borderColor: 'rgb(71 85 105)', //bg-slate-600
+                                    borderWidth: 1,
+                                    hoverOffset: 4
+                                }]
+                            };
+                            var ctx = document.getElementById('chart-{{ $rand }}');
+                            var myChart = new ChartJS(ctx, {
+                                type: 'pie',
+                                data: data,
+                                options: {
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: {
+                                            display: false
+                                        },
+                                        tooltip: {
+                                            enabled: false
+                                        }
+                                    }
+                                }
+                            });
+                        }, false);
+                    </script>
+                </div>
+            </td>
             <td>
                 <table class="table table-small">
                     <tr class="tr-heading">

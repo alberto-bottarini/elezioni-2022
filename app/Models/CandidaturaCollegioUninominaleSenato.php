@@ -33,4 +33,9 @@ class CandidaturaCollegioUninominaleSenato extends Model
     {
         return $this->belongsTo(CollegioUninominaleSenato::class, 'collegio_uninominale_senato_id');
     }
+
+    public function risultati(): HasMany
+    {
+        return $this->hasMany(RisultatoCandidaturaCollegioUninominaleSenato::class, 'candidatura_id');
+    }
 }

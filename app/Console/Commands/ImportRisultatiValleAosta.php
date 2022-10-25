@@ -83,6 +83,15 @@ class ImportRisultatiValleAosta extends Command
                     'IANNI Davide' => 3627,
                     'DE ROSA Loredana' => 3628,
                     'MANES Franco' => 3629,
+
+                    'LERAY Giovanni Guglielmo' => 4351,
+                    'VESAN Patrik' => 4352,
+                    'PULZ Daria' => 4353,
+                    'BICHINI Alessandro' => 4354,
+                    'LUCAT Francesco, Maria, Giuseppe, Carlo' => 4355,
+                    'SPELGATTI Nicoletta' => 4356,
+                    'BARGAN Larisa' => 4357,
+                    'ROLLANDIN Augusto' => 4358,
                 ];
 
                 // $this->info($lista);

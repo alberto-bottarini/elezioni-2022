@@ -11,8 +11,8 @@ use App\Models\Comune;
 use App\Models\Lista;
 use App\Models\RisultatoCandidaturaCollegioUninominaleCamera;
 use App\Models\RisultatoCandidaturaCollegioUninominaleCameraLista;
-use App\Models\RisultatiCandidaturaCollegioUninominaleSenato;
-use App\Models\RisultatiCandidaturaCollegioUninominaleSenatoLista;
+use App\Models\RisultatoCandidaturaCollegioUninominaleSenato;
+use App\Models\RisultatoCandidaturaCollegioUninominaleSenatoLista;
 use Illuminate\Console\Command;
 use League\Csv\Reader;
 
@@ -154,7 +154,7 @@ class ImportRisultati extends Command
 
         if ($this->option('palazzo') == 'camera') {
             $palazzi = ['camera'];
-        } elseif ($this->option('palazzo') == 'camera') {
+        } elseif ($this->option('palazzo') == 'senato') {
             $palazzi = ['senato'];
         } else {
             $palazzi = ['camera', 'senato'];
@@ -163,7 +163,7 @@ class ImportRisultati extends Command
         foreach ($palazzi as $palazzo) {
             $this->line('Importo risultati ' . $palazzo);
 
-            $comuniFile = '/var/eligendo/siracusa.csv';
+            $comuniFile = '/var/eligendo/Politiche2022_Scrutini_' . ucfirst($palazzo) . '_Italia.csv';
             $comuniCsv = Reader::createFromPath($comuniFile, 'r');
             $comuniCsv->setHeaderOffset(0);
             $comuniCsv->setDelimiter(';');
@@ -178,8 +178,8 @@ class ImportRisultati extends Command
             } else {
                 $collegioUninominaleModel = CollegioUninominaleSenato::class;
                 $collegioPlurinominale = CollegioPlurinominaleSenato::class;
-                $risultatiCandidaturaCollegioUninominale = RisultatiCandidaturaCollegioUninominaleSenato::class;
-                $risultatiCandidaturaCollegioUninominaleLista = RisultatiCandidaturaCollegioUninominaleSenatoLista::class;
+                $risultatiCandidaturaCollegioUninominale = RisultatoCandidaturaCollegioUninominaleSenato::class;
+                $risultatiCandidaturaCollegioUninominaleLista = RisultatoCandidaturaCollegioUninominaleSenatoLista::class;
             }
 
             $nomiMapping = [
@@ -209,6 +209,21 @@ class ImportRisultati extends Command
                 'PIETRO DETTO PIERO BEVILACQUA' => 'PIETRO BEVILACQUA DETTO PIERO',
                 'CALOGERO DETTO GERY BAVETTA' => 'CALOGERO BAVETTA DETTO GERY',
                 'GIUSEPPE DETTO OSCURATO CIRILLO' => 'GIUSEPPE CIRILLO DETTO OSCURATO',
+
+                'MARIASSUNTA DETTA SUSY MATRISCIANO' => 'MARIASSUNTA MATRISCIANO DETTA SUSY',
+                'GIUSEPPINA DETTA GIUSY VERSACE' => 'GIUSEPPINA VERSACE DETTA GIUSY',
+                'DARIO DETTO DARIA FRATUS' => 'DARIO FRATUS DETTO DARIA',
+                'MARIA DETTA MARY CARIDI' => 'MARIA CARIDI DETTA MARY',
+                'GIUSEPPE DETTO BEPPE NEGRI' => 'GIUSEPPE NEGRI DETTO BEPPE',
+                'MARCO DETTO ODDO ODORICI' => 'MARCO ODORICI DETTO ODDO',
+                'ARNALDO DETTO NANDO MARCHETTI' => 'ARNALDO MARCHETTI DETTO NANDO',
+                'LUIGIA DETTA GINA LOLLOBRIGIDA' => 'LUIGIA LOLLOBRIGIDA DETTA GINA',
+                'ANNA DETTA ARIANNA ORGANO' => 'ANNA ORGANO DETTA ARIANNA',
+                'ELEONORA DETTA NORA DI NOCERA' => 'ELEONORA DI NOCERA DETTA NORA',
+                'DONATA DETTA DONATELLA ALBERGO' => 'DONATA ALBERGO DETTA DONATELLA',
+                'SEBASTIANO DETTO NELLO MUSUMECI' => 'SEBASTIANO MUSUMECI DETTO NELLO',
+                'DOLORES DETTA DORIS DESSI\'' => 'DOLORES DESSI\' DETTA DORIS'
+                
             ];
 
             $bar = $this->output->createProgressBar(iterator_count($records));

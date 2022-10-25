@@ -21,6 +21,11 @@ class CandidaturaCollegioUninominaleSenatoLista extends Model
 
     public function risultati(): HasMany
     {
-        return $this->hasMany(RisultatiCandidaturaCollegioUninominaleSenatoLista::class, 'candidatura_lista_id');
+        return $this->hasMany(RisultatoCandidaturaCollegioUninominaleSenatoLista::class, 'candidatura_lista_id');
+    }
+
+    public function candidatura(): BelongsTo
+    {
+        return $this->belongsTo(CandidaturaCollegioUninominaleSenato::class, 'candidatura_collegio_uninominale_senato_id');
     }
 }

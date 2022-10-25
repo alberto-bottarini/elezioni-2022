@@ -165,7 +165,7 @@ class CacheRisultati extends Command
             }
         });
 
-        $risultatiCamera = RisultatoCircoscrizioneCamera::all()->reduce(function ($carry, $risultatoCircoscrizioneCamera) {
+        $risultatiCamera = RisultatoCircoscrizioneCamera::where('circoscrizione_id', '<>', 3)->get()->reduce(function ($carry, $risultatoCircoscrizioneCamera) {
             if (!$carry->has($risultatoCircoscrizioneCamera->lista_id)) {
                 return $carry->put($risultatoCircoscrizioneCamera->lista_id, $risultatoCircoscrizioneCamera->voti);
             }

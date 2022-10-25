@@ -27,7 +27,6 @@
         <tr class="tr-heading">
             <th>Nome Candidato</th>
             <th>Voti totali</th>
-            <th>Voti candidato</th>
             <th>Voti alle liste</th>
         </tr>
         @foreach($collegio->candidature->sortByDesc(function($candidatura) {
@@ -36,7 +35,6 @@
             <tr class="tr-standard">
                 <td><a href="{{ route('candidato', $candidatura->candidato) }}" class="anchor">@svg('heroicon-o-user-circle', 'w-5 h-5 inline-block') {{ $candidatura->candidato->nome }}</a></td>
                 <td>{{ format_voti($candidatura->risultati->sum('voti')) }}</td>
-                <td>{{ format_voti($candidatura->risultati->sum('voti_candidato')) }}</td>
                 <td class="w-1/2 px-0">
                     <table class="table table-small">
                         <tr class="tr-heading">

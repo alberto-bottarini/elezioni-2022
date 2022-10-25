@@ -108,7 +108,20 @@ class GeoController extends Controller
                 $query->where('comune_id', $comune->id);
             },
         ]);
-        // dd($comune->collegiUninominaliCamera->first()->candidature->toArray());
+
+        $collegiUninominaliSenato = $comune->collegiUninominaliSenato;
+
+        $collegiUninominaliSenato->load([
+            'candidature',
+            'candidature.risultati' => function ($query) use ($comune) {
+                $query->where('comune_id', $comune->id);
+            },
+            'candidature.candidatureLista',
+            'candidature.candidatureLista.risultati' => function ($query) use ($comune) {
+                $query->where('comune_id', $comune->id);
+            },
+        ]);
+
         return view('geo.comune')
             ->with('comune', $comune);
     }

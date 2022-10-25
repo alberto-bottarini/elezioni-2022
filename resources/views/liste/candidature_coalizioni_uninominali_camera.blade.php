@@ -22,8 +22,8 @@
             <tr class="tr-subheading">
                 <td colspan="2">{{ $candidatura->collegio->nome }}</td>
             </tr>
-            <tr class="even:bg-slate-100 odd:bg-slate-200">
-                <td><a href="#" class="anchor">@svg('heroicon-o-user-circle', 'w-5 h-5 inline-block') {{ $candidatura->candidato->nome }}</a></td>
+            <tr class="tr-standard">
+                <td><a href="{{ route('candidato', $candidatura->candidato) }}" class="anchor">@svg('heroicon-o-user-circle', 'w-5 h-5 inline-block') {{ $candidatura->candidato->nome }}</a></td>
                 <td>nato nel {{ $candidatura->candidato->anno_nascita }} a {{ $candidatura->candidato->luogo_nascita }}</a></td>
             </tr>
         @endforeach

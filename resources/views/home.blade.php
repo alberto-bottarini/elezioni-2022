@@ -49,6 +49,15 @@
 
         <div>
             <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
+                <a href="{{ route('risultati_camera') }}" class="block py-4 px-2">
+                    @svg('heroicon-o-building-library', 'w-5 h-5 inline-block mb-2')<br>
+                    Risultati Definitivi Camera
+                </a>
+            </div>
+        </div>
+        
+        <div>
+            <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
                 <a href="{{ route('circoscrizioni_camera') }}" class="block py-4 px-2">
                     @svg('heroicon-o-map', 'w-5 h-5 inline-block mb-2')<br>
                     Elenco circoscrizioni Camera
@@ -100,16 +109,6 @@
                 </a>
             </div>
         </div>
-
-        {{-- <div>
-            <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
-                <a href="{{ route('risultati_camera') }}" class="block py-4 px-2">
-                    @svg('heroicon-o-user-circle', 'w-5 h-5 inline-block mb-2')<br>
-                    Risultati Camera
-                </a>
-            </div>
-        </div> --}}
-
 
     </div>
 
