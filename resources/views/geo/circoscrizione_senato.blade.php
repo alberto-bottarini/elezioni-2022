@@ -25,12 +25,15 @@
             <th>Nome</th>
             <th>Numero collegi uninominali</th>
         </tr>
-        @foreach($collegiPlurinominali as $collegio)
+        @foreach($circoscrizione->collegiPlurinominali as $collegio)
             <tr class="tr-standard">
                 <td><a href="{{ route('collegio_plurinominale_senato', $collegio) }}" class="anchor">@svg('heroicon-o-cursor-arrow-ripple', 'w-5 h-5 inline-block') {{ $collegio->nome }}</a></td>
                 <td>{{ $collegio->collegi_uninominali_count }}</td>
             </tr>
         @endforeach
     </table>
+
+    <h2 class="section">Risultati</h2>
+    @include('partials.geo.risultati_plurinominale')
 
 @endsection

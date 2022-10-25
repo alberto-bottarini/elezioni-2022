@@ -10,5 +10,5 @@ class RisultatoCollegioUninominaleCameraLista extends Model
     use HasFactory;
 
     public $timestamps = false;
-    public $table = 'risultati_collegi_uninominali_camera_liste';
+    public $table = 'risultati_collegi_uninominale_camera_liste';
 }

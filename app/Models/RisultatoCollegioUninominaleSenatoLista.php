@@ -10,5 +10,5 @@ class RisultatoCollegioUninominaleSenatoLista extends Model
     use HasFactory;
 
     public $timestamps = false;
-    public $table = 'risultati_collegi_uninominali_senato_liste';
+    public $table = 'risultati_collegi_uninominale_senato_liste';
 }

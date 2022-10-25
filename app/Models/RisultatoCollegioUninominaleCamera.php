@@ -10,5 +10,10 @@ class RisultatoCollegioUninominaleCamera extends Model
     use HasFactory;
 
     public $timestamps = false;
-    public $table = 'risultati_collegi_uninominali_camera';
+    public $table = 'risultati_collegi_uninominale_camera';
+
+    public function candidato()
+    {
+        return $this->belongsTo(Candidato::class, 'candidato_id');
+    }
 }

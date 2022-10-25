@@ -67,6 +67,15 @@
 
         <div>
             <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
+                <a href="{{ route('risultati_senato') }}" class="block py-4 px-2">
+                    @svg('heroicon-o-building-library', 'w-5 h-5 inline-block mb-2')<br>
+                    Risultati Definitivi Senato
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
                 <a href="{{ route('circoscrizioni_senato') }}" class="block py-4 px-2">
                     @svg('heroicon-o-map', 'w-5 h-5 inline-block mb-2')<br>
                     Elenco circoscrizioni Senato
@@ -115,6 +124,7 @@
     <div class="section">Aggiornamenti del portale</div>
 
     <ul class="text-sm mt-4">
+        <li><b>25/10/22</b> Importati e sanificati i risultati del Senato</li>
         <li><b>24/10/22</b> Importati risultati Camera per Val d'Aosta</li>
         <li><b>20/10/22</b> Importati e sanificati i risultati della Camera</li>
         <li><b>18/10/22</b> Aggiunte i risultati nelle pagine dei comuni + corretti un po' di bug</li>

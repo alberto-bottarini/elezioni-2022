@@ -19,6 +19,11 @@ class CircoscrizioneSenato extends Model
         return $this->hasMany(CollegioPlurinominaleSenato::class, 'circoscrizione_id');
     }
 
+    public function risultati()
+    {
+        return $this->hasMany(RisultatoCircoscrizioneSenato::class, 'circoscrizione_id');
+    }
+
     protected function getDetailRouteName(): string
     {
         return 'circoscrizione_senato';

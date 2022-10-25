@@ -32,8 +32,20 @@ class CollegioUninominaleCamera extends Model
             ->orderBy('numero');
     }
 
-    protected function getDetailRouteName(): string {
+    public function risultati(): HasMany
+    {
+        return $this->hasMany(RisultatoCollegioUninominaleCamera::class, 'collegio_id')
+            ->orderByDesc('voti');
+    }
+
+    public function risultatiListe(): HasMany
+    {
+        return $this->hasMany(RisultatoCollegioUninominaleCameraLista::class, 'collegio_id')
+            ->orderByDesc('voti');
+    }
+
+    protected function getDetailRouteName(): string
+    {
         return 'collegio_uninominale_camera';
     }
-    
 }

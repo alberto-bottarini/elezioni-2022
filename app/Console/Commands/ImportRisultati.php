@@ -163,7 +163,7 @@ class ImportRisultati extends Command
         foreach ($palazzi as $palazzo) {
             $this->line('Importo risultati ' . $palazzo);
 
-            $comuniFile = '/var/eligendo/Politiche2022_Scrutini_' . ucfirst($palazzo) . '_Italia.csv';
+            $comuniFile = '/var/eligendo/fix-senato.csv';
             $comuniCsv = Reader::createFromPath($comuniFile, 'r');
             $comuniCsv->setHeaderOffset(0);
             $comuniCsv->setDelimiter(';');

@@ -32,6 +32,18 @@ class CollegioUninominaleSenato extends Model
             ->orderBy('numero');
     }
 
+    public function risultati(): HasMany
+    {
+        return $this->hasMany(RisultatoCollegioUninominaleSenato::class, 'collegio_id')
+            ->orderByDesc('voti');
+    }
+
+    public function risultatiListe(): HasMany
+    {
+        return $this->hasMany(RisultatoCollegioUninominaleSenatoLista::class, 'collegio_id')
+            ->orderByDesc('voti');
+    }
+
     protected function getDetailRouteName(): string {
         return 'collegio_uninominale_senato';
     }

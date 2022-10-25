@@ -31,6 +31,12 @@ class CollegioPlurinominaleSenato extends Model
         return $this->hasMany(CandidaturaCollegioPlurinominaleSenato::class, 'collegio_plurinominale_senato_id');
     }
 
+    public function risultati(): HasMany
+    {
+        return $this->hasMany(RisultatoCollegioPlurinominaleSenato::class, 'collegio_id')
+            ->orderByDesc('voti');
+    }
+
     protected function getDetailRouteName(): string
     {
         return 'collegio_plurinominale_camera';

@@ -50,5 +50,6 @@ Route::get('/candidati', [CandidatiController::class, 'candidati'])->name('candi
 Route::get('/candidato/{candidato}', [CandidatiController::class, 'candidato'])->name('candidato');
 
 Route::get('/risultati-camera', [GeoController::class, 'camera'])->name('risultati_camera');
+Route::get('/risultati-senato', [GeoController::class, 'senato'])->name('risultati_senato');
 
 Route::post('/ricerca', [SearchController::class, 'search'])->name('ricerca');

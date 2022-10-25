@@ -27,39 +27,30 @@
         <tr class="tr-heading">
             <th>Nome Candidato</th>
             <th>Voti totali</th>
+            <th>Percentuale</th>
             <th>Voti alle liste</th>
         </tr>
-        @foreach($collegio->candidature->sortByDesc(function($candidatura) {
-            return $candidatura->risultati->sum('voti');
-        }) as $candidatura)
+        @foreach($candidature as $candidatura)
             <tr class="tr-standard">
                 <td><a href="{{ route('candidato', $candidatura->candidato) }}" class="anchor">@svg('heroicon-o-user-circle', 'w-5 h-5 inline-block') {{ $candidatura->candidato->nome }}</a></td>
-                <td>{{ format_voti($candidatura->risultati->sum('voti')) }}</td>
+                <td>{{ format_voti($risultatiPerCandidato->get($candidatura->candidato_id)->voti) }}</td>
+                <td>{{ format_percentuali($risultatiPerCandidato->get($candidatura->candidato_id)->percentuale) }}</td>
                 <td class="w-1/2 px-0">
                     <table class="table table-small">
                         <tr class="tr-heading">
-                            <th class="w-5/6">Lista</th>
+                            <th class="w-4/6">Lista</th>
                             <th class="w-1/6">Voti</th>
+                            <th class="w-1/6">Percentuale</th>
                         </tr>
-                        <?php
-                            $sum = 0;
-                            foreach($candidatura->candidatureLista as $candidaturaLista) {
-                                $sum += $candidaturaLista->risultati->sum('voti');
-                            }
-                        ?>
-                        @foreach($candidatura->candidatureLista->sortByDesc(function($candidaturaLista) {
-                            return $candidaturaLista->risultati->sum('voti');
-                        }) as $candidaturaLista)
+                        @foreach($candidatura->candidatureLista as $candidaturaLista)
                             <tr class="tr-standard">
-                                <td class="w-5/6"><a href="{{ route('lista', $candidaturaLista->lista) }}" class="anchor">
+                                <td class="w-4/6"><a href="{{ route('lista', $candidaturaLista->lista) }}" class="anchor">
                                     @svg('heroicon-o-list-bullet', 'w-3 h-3 inline-block mr-2'){{ $candidaturaLista->lista->nome }}</a></td>
-                                <td class="w-1/6">{{ format_voti(
-                                    $candidaturaLista->risultati->sum('voti') + ($sum > 0 ? (
-                                        $candidatura->risultati->sum('voti_candidato') * $candidaturaLista->risultati->sum('voti') / $sum
-                                    ) : 0)) }}
-                                </td>
+                                <td class="w-1/6">{{ format_voti($risultatiPerLista->get($candidaturaLista->lista_id)->voti )}}</td>
+                                <td class="w-1/6">{{ format_percentuali($risultatiPerLista->get($candidaturaLista->lista_id)->percentuale )}}</td>
                             </tr>
                         @endforeach
+
                     </table>
                 </td>
             </tr>
@@ -67,7 +58,6 @@
     </table>
     
     <h2 class="section">Candidati</h2>
-
     @include('partials.geo.candidati_uninominale', ['candidature' => $collegio->candidature ])
     
     <h2 class="section">Comuni</h2>
