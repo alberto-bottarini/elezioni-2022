@@ -9,10 +9,10 @@ use App\Models\CollegioUninominaleCamera;
 use App\Models\CollegioUninominaleSenato;
 use App\Models\Comune;
 use App\Models\Lista;
-use App\Models\RisultatoCandidaturaCollegioUninominaleCamera;
-use App\Models\RisultatoCandidaturaCollegioUninominaleCameraLista;
-use App\Models\RisultatoCandidaturaCollegioUninominaleSenato;
-use App\Models\RisultatoCandidaturaCollegioUninominaleSenatoLista;
+use App\Models\VotoCandidaturaCameraComune;
+use App\Models\VotoCandidaturaCameraComuneLista;
+use App\Models\VotoCandidaturaSenatoComune;
+use App\Models\VotoCandidaturaSenatoComuneLista;
 use Illuminate\Console\Command;
 use League\Csv\Reader;
 
@@ -173,13 +173,13 @@ class ImportRisultati extends Command
             if ($palazzo == 'camera') {
                 $collegioUninominaleModel = CollegioUninominaleCamera::class;
                 $collegioPlurinominale = CollegioPlurinominaleCamera::class;
-                $risultatiCandidaturaCollegioUninominale = RisultatoCandidaturaCollegioUninominaleCamera::class;
-                $risultatiCandidaturaCollegioUninominaleLista = RisultatoCandidaturaCollegioUninominaleCameraLista::class;
+                $risultatiCandidaturaCollegioUninominale = VotoCandidaturaCameraComune::class;
+                $risultatiCandidaturaCollegioUninominaleLista = VotoCandidaturaCameraComuneLista::class;
             } else {
                 $collegioUninominaleModel = CollegioUninominaleSenato::class;
                 $collegioPlurinominale = CollegioPlurinominaleSenato::class;
-                $risultatiCandidaturaCollegioUninominale = RisultatoCandidaturaCollegioUninominaleSenato::class;
-                $risultatiCandidaturaCollegioUninominaleLista = RisultatoCandidaturaCollegioUninominaleSenatoLista::class;
+                $risultatiCandidaturaCollegioUninominale = VotoCandidaturaSenatoComune::class;
+                $risultatiCandidaturaCollegioUninominaleLista = VotoCandidaturaSenatoComuneLista::class;
             }
 
             $nomiMapping = [

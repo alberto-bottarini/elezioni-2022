@@ -34,9 +34,9 @@ class CandidaturaCollegioUninominaleCamera extends Model
         return $this->belongsTo(CollegioUninominaleCamera::class, 'collegio_uninominale_camera_id');
     }
 
-    public function risultati(): HasMany
+    public function voti(): HasMany
     {
-        return $this->hasMany(RisultatoCandidaturaCollegioUninominaleCamera::class, 'candidatura_id');
+        return $this->hasMany(VotoCandidaturaCameraComune::class, 'candidatura_id');
     }
 
 }

@@ -7,8 +7,8 @@ use App\Models\CandidaturaCollegioUninominaleCamera;
 use App\Models\CandidaturaCollegioUninominaleCameraLista;
 use App\Models\Comune;
 use App\Models\Lista;
-use App\Models\RisultatoCandidaturaCollegioUninominaleCamera;
-use App\Models\RisultatoCandidaturaCollegioUninominaleCameraLista;
+use App\Models\VotoCandidaturaCameraComune;
+use App\Models\VotoCandidaturaCameraComuneLista;
 use Goutte\Client;
 use Illuminate\Console\Command;
 
@@ -117,8 +117,8 @@ class ImportRisultatiValleAosta extends Command
                     ->where('candidato_id', $candidato->id)
                     ->first();
 
-                RisultatoCandidaturaCollegioUninominaleCamera::unguard();
-                RisultatoCandidaturaCollegioUninominaleCamera::updateOrCreate([
+                VotoCandidaturaCameraComune::unguard();
+                VotoCandidaturaCameraComune::updateOrCreate([
                     'comune_id' => $comune->id,
                     'candidatura_id' => $candidatura->id,
                 ], [
@@ -130,8 +130,8 @@ class ImportRisultatiValleAosta extends Command
                     ->where('lista_id', $lista->id)
                     ->first();
 
-                RisultatoCandidaturaCollegioUninominaleCameraLista::unguard();
-                RisultatoCandidaturaCollegioUninominaleCameraLista::updateOrCreate([
+                VotoCandidaturaCameraComuneLista::unguard();
+                VotoCandidaturaCameraComuneLista::updateOrCreate([
                     'comune_id' => $comune->id,
                     'candidatura_lista_id' => $candidaturaLista->id,
                 ], [

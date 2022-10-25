@@ -19,9 +19,9 @@ class CandidaturaCollegioUninominaleSenatoLista extends Model
         return $this->belongsTo(Lista::class, 'lista_id');
     }
 
-    public function risultati(): HasMany
+    public function voti(): HasMany
     {
-        return $this->hasMany(RisultatoCandidaturaCollegioUninominaleSenatoLista::class, 'candidatura_lista_id');
+        return $this->hasMany(VotoCandidaturaSenatoComuneLista::class, 'candidatura_lista_id');
     }
 
     public function candidatura(): BelongsTo

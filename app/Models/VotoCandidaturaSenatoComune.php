@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RisultatoCandidaturaCollegioUninominaleCamera extends Model
+class VotoCandidaturaSenatoComune extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
-    public $table = 'risultati_candidature_collegi_uninominale_camera';
+    public $table = 'voti_candidature_senato_comuni';
 
     public function comune()
     {

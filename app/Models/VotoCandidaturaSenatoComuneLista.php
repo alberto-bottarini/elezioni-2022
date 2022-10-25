@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RisultatoCandidaturaCollegioUninominaleCameraLista extends Model
+class VotoCandidaturaSenatoComuneLista extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
-    public $table = 'risultati_candidature_collegi_uninominale_camera_liste';
+    public $table = 'voti_candidature_senato_comuni_liste';
 }
