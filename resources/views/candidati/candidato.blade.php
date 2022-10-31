@@ -31,7 +31,7 @@
                 <tr class="tr-standard">
                     <td><a href="{{ route('collegio_uninominale_camera', $candidatura->collegio) }}"
                             class="anchor">@svg('heroicon-o-cursor-arrow-rays', 'w-5 h-5 inline-block') {{ $candidatura->collegio->nome }}</a></td>
-                    <td class="text-xs">{{ $candidatura->coalizione->nome }}</td>
+                    <td>{{ $candidatura->coalizione->nome }}</td>
                 </tr>
             @endforeach
         </table>
@@ -67,7 +67,7 @@
                 <tr class="tr-standard">
                     <td><a href="{{ route('collegio_uninominale_senato', $candidatura->collegio) }}"
                             class="anchor">@svg('heroicon-o-cursor-arrow-rays', 'w-5 h-5 inline-block') {{ $candidatura->collegio->nome }}</a></td>
-                    <td class="text-xs">{{ $candidatura->coalizione->nome }}</td>
+                    <td>{{ $candidatura->coalizione->nome }}</td>
                 </tr>
             @endforeach
         </table>
