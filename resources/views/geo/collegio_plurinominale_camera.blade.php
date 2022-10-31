@@ -37,7 +37,9 @@
     <h2 class="section">Risultati</h2>
     @include('partials.geo.risultati_plurinominale')
 
-    <h2 class="section">Candidati</h2>
-    @include('partials.geo.candidati_plurinominale', ['candidature' => $collegio->candidature])
+    @if($collegio->candidature->count())
+        <h2 class="section">Candidati</h2>
+        @include('partials.geo.candidati_plurinominale', ['candidature' => $candidature])
+    @endif
     
 @endsection

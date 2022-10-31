@@ -19,7 +19,6 @@ class GeoController extends Controller
     public function circoscrizioniCamera()
     {
         $circoscrizioni = CircoscrizioneCamera::orderBy('nome')
-            ->withCount('collegiPlurinominali')
             ->get();
 
         return view('geo.circoscrizioni_camera')
@@ -28,22 +27,28 @@ class GeoController extends Controller
 
     public function circoscrizioneCamera(CircoscrizioneCamera $circoscrizione)
     {
-        $risultatiPerCoalizione = $this->groupRisultatiByCoalizione($circoscrizione->risultati);
+        $coalizioni = Coalizione::with('liste')->get();
+        $risultati = $circoscrizione->risultati->load('lista');
+        $risultatiPerCoalizione = $this->groupRisultatiByCoalizione($risultati, $coalizioni);
 
         return view('geo.circoscrizione_camera')
             ->with('circoscrizione', $circoscrizione)
-            ->with('coalizioni', Coalizione::all())
+            ->with('coalizioni', $coalizioni)
             ->with('risultatiPerCoalizione', $risultatiPerCoalizione);
     }
 
     public function collegioPlurinominaleCamera(CollegioPlurinominaleCamera $collegioPlurinominale)
     {
-        $risultatiPerCoalizione = $this->groupRisultatiByCoalizione($collegioPlurinominale->risultati);
+        $coalizioni = Coalizione::with('liste')->get();
+        $risultati = $collegioPlurinominale->risultati->load('lista');
+        $risultatiPerCoalizione = $this->groupRisultatiByCoalizione($risultati, $coalizioni);
+        $candidature = $collegioPlurinominale->candidature->load('candidati')->load('lista');
 
         return view('geo.collegio_plurinominale_camera')
             ->with('collegio', $collegioPlurinominale)
-            ->with('coalizioni', Coalizione::all())
-            ->with('risultatiPerCoalizione', $risultatiPerCoalizione);
+            ->with('coalizioni', $coalizioni)
+            ->with('risultatiPerCoalizione', $risultatiPerCoalizione)
+            ->with('candidature', $candidature);
     }
 
     public function collegioUninominaleCamera(CollegioUninominaleCamera $collegioUninominale)
@@ -71,7 +76,6 @@ class GeoController extends Controller
     public function circoscrizioniSenato()
     {
         $circoscrizioni = CircoscrizioneSenato::orderBy('nome')
-            ->withCount('collegiPlurinominali')
             ->get();
 
         return view('geo.circoscrizioni_senato')
@@ -80,24 +84,50 @@ class GeoController extends Controller
 
     public function circoscrizioneSenato(CircoscrizioneSenato $circoscrizione)
     {
-        $risultatiPerCoalizione = $this->groupRisultatiByCoalizione($circoscrizione->risultati);
+        $coalizioni = Coalizione::with('liste')->get();
+        $risultati = $circoscrizione->risultati->load('lista');
+        $risultatiPerCoalizione = $this->groupRisultatiByCoalizione($risultati, $coalizioni);
 
         return view('geo.circoscrizione_senato')
             ->with('circoscrizione', $circoscrizione)
-            ->with('coalizioni', Coalizione::all())
+            ->with('coalizioni', $coalizioni)
             ->with('risultatiPerCoalizione', $risultatiPerCoalizione);
     }
 
     public function collegioPlurinominaleSenato(CollegioPlurinominaleSenato $collegioPlurinominale)
     {
+        $coalizioni = Coalizione::with('liste')->get();
+        $risultati = $collegioPlurinominale->risultati->load('lista');
+        $risultatiPerCoalizione = $this->groupRisultatiByCoalizione($risultati, $coalizioni);
+        $candidature = $collegioPlurinominale->candidature->load('candidati')->load('lista');
+
         return view('geo.collegio_plurinominale_senato')
-            ->with('collegio', $collegioPlurinominale);
+            ->with('collegio', $collegioPlurinominale)
+            ->with('coalizioni', $coalizioni)
+            ->with('risultatiPerCoalizione', $risultatiPerCoalizione)
+            ->with('candidature', $candidature);
     }
 
     public function collegioUninominaleSenato(CollegioUninominaleSenato $collegioUninominale)
     {
+        $risultatiPerCandidato = $collegioUninominale->risultati->keyBy('candidato_id');
+        $risultatiPerLista = $collegioUninominale->risultatiListe->keyBy('lista_id');
+
+        $candidature = $collegioUninominale->candidature->sortByDesc(function ($candidatura) use ($risultatiPerCandidato) {
+            return $risultatiPerCandidato->get($candidatura->candidato_id)->voti;
+        })->map(function ($candidatura) use ($risultatiPerLista) {
+            $candidatura->candidatureLista = $candidatura->candidatureLista->sortByDesc(function ($candidaturaLista) use ($risultatiPerLista) {
+                return $risultatiPerLista->get($candidaturaLista->lista_id)->voti;
+            });
+
+            return $candidatura;
+        });
+
         return view('geo.collegio_uninominale_senato')
-            ->with('collegio', $collegioUninominale);
+            ->with('collegio', $collegioUninominale)
+            ->with('candidature', $candidature)
+            ->with('risultatiPerCandidato', $risultatiPerCandidato)
+            ->with('risultatiPerLista', $risultatiPerLista);
     }
 
     public function comuni()
@@ -137,39 +167,47 @@ class GeoController extends Controller
             },
         ]);
 
+        //dd($collegiUninominaliSenato->first()->candidature->first()->voti->toArray());
+
         return view('geo.comune')
             ->with('comune', $comune);
     }
 
     public function camera()
     {
-        $risultatiPerCoalizione = $this->groupRisultatiByCoalizione(RisultatoCamera::all());
-        $risultatiVDA = $this->groupRisultatiByCoalizione(CircoscrizioneCamera::where('id', 3)->first()->risultati);
+        $risultati = RisultatoCamera::with('lista')->get();
+        $coalizioni = Coalizione::with('liste')->get();
+        $risultatiPerCoalizione = $this->groupRisultatiByCoalizione($risultati, $coalizioni);
+        $risultatiVDA = $this->groupRisultatiByCoalizione(CircoscrizioneCamera::where('id', 3)->first()->risultati, $coalizioni);
+        $coalizioni = Coalizione::with('liste')->get();
 
         return view('geo.camera')
-            ->with('coalizioni', Coalizione::all())
+            ->with('coalizioni', $coalizioni)
             ->with('risultatiPerCoalizione', $risultatiPerCoalizione)
             ->with('risultatiVDA', $risultatiVDA);
     }
 
     public function senato()
     {
-        $risultatiPerCoalizione = $this->groupRisultatiByCoalizione(RisultatoSenato::all());
-        $risultatiVDA = $this->groupRisultatiByCoalizione(CircoscrizioneSenato::where('id', 2)->first()->risultati);
-        $risultatiTAA = $this->groupRisultatiByCoalizione(CircoscrizioneSenato::where('id', 4)->first()->risultati);
+        $risultati = RisultatoCamera::with('lista')->get();
+        $coalizioni = Coalizione::with('liste')->get();
+        $risultatiPerCoalizione = $this->groupRisultatiByCoalizione($risultati, $coalizioni);
+        $risultatiVDA = $this->groupRisultatiByCoalizione(CircoscrizioneSenato::where('id', 2)->first()->risultati, $coalizioni);
+        $risultatiTAA = $this->groupRisultatiByCoalizione(CircoscrizioneSenato::where('id', 4)->first()->risultati, $coalizioni);
+        
 
         return view('geo.senato')
-            ->with('coalizioni', Coalizione::all())
+            ->with('coalizioni', $coalizioni)
             ->with('risultatiPerCoalizione', $risultatiPerCoalizione)
             ->with('risultatiVDA', $risultatiVDA)
             ->with('risultatiTAA', $risultatiTAA);
     }
 
-    private function groupRisultatiByCoalizione($risultati)
+    private function groupRisultatiByCoalizione($risultati, $coalizioni)
     {
         $risultatiPerLista = $risultati->groupBy('lista_id');
 
-        $risultatiPerCoalizione = Coalizione::all()->reduce(function ($carry, $coalizione) use ($risultatiPerLista) {
+        $risultatiPerCoalizione = $coalizioni->reduce(function ($carry, $coalizione) use ($risultatiPerLista) {
             $risultatiListe = $coalizione->liste->reduce(function ($carry, $lista) use ($risultatiPerLista) {
                 $risultati = $risultatiPerLista->get($lista->id);
                 if ($risultati && $risultati->count() > 0) {

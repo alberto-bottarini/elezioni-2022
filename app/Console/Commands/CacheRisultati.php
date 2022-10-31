@@ -52,7 +52,7 @@ class CacheRisultati extends Command
         }
 
         foreach ($palazzi as $palazzo) {
-            $this->line('Cacho risultati ' . $palazzo);
+            $this->info('Cacho risultati ' . $palazzo);
 
             if ($palazzo == 'camera') {
                 $risultatoCollegioUninominaleModel = RisultatoCollegioUninominaleCamera::class;
