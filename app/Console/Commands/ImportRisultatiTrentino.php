@@ -392,7 +392,7 @@ class ImportRisultatiTrentino extends Command
                 $nomeComune = 'MAGRE\' SULLA STRADA DEL VINO/MARGREID AN DER WEINSTRASSE';
             } elseif ($nomeComune == 'palù del fersina') {
                 $nomeComune = 'PALU\' DEL FERSINA';
-            } else if($nomeComune == 'fiè allo sciliar/völs am schlern') {
+            } elseif ($nomeComune == 'fiè allo sciliar/völs am schlern') {
                 $nomeComune = 'FIE\' ALLO SCILIAR/VOLS AM SCHLERN';
             }
 

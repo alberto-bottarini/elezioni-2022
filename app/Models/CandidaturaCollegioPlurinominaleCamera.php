@@ -27,6 +27,7 @@ class CandidaturaCollegioPlurinominaleCamera extends Model
     public function candidati(): BelongsToMany
     {
         return $this->belongsToMany(Candidato::class, 'candidati_candidature_collegi_plurinominali_camera', 'candidatura_collegio_plurinominale_camera_id', 'candidato_id')
+            ->withPivot(['eletto'])
             ->orderBy('numero');
     }
 

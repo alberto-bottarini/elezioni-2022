@@ -124,6 +124,7 @@
     <div class="section">Aggiornamenti del portale</div>
 
     <ul class="text-sm mt-4">
+        <li><b>02/11/22</b> Importati eletti (tranne Val d'Aosta e Trentino Alto-Adige)</li>
         <li><b>31/10/22</b> Importati risultati Senato per Val d'Aosta e Trentino Alto-Adige + inserimento risultati nelle pagine Liste + ottimizzazione query</li>
         <li><b>25/10/22</b> Importati e sanificati i risultati del Senato</li>
         <li><b>24/10/22</b> Importati risultati Camera per Val d'Aosta</li>

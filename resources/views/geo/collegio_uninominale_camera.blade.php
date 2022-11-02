@@ -32,7 +32,12 @@
         </tr>
         @foreach($candidature as $candidatura)
             <tr class="tr-standard">
-                <td><a href="{{ route('candidato', $candidatura->candidato) }}" class="anchor">@svg('heroicon-o-user-circle', 'w-5 h-5 inline-block') {{ $candidatura->candidato->nome }}</a></td>
+                <td>
+                    <a href="{{ route('candidato', $candidatura->candidato) }}" class="anchor">
+                        @svg('heroicon-o-user-circle', 'w-5 h-5 inline-block') {{ $candidatura->candidato->nome }}
+                        @if($candidatura->eletto) @svg('heroicon-o-star', 'w-5 h-5 inline-block') @endif 
+                    </a>
+                </td>
                 <td>{{ format_voti($risultatiPerCandidato->get($candidatura->candidato_id)->voti) }}</td>
                 <td>{{ format_percentuali($risultatiPerCandidato->get($candidatura->candidato_id)->percentuale) }}</td>
                 <td class="w-1/2 px-0">
