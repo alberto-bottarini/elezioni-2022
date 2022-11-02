@@ -26,12 +26,14 @@
             <tr class="tr-heading">
                 <th>Collegio uninominale</th>
                 <th>Coalizione</th>
+                <th>Eletto</th>
             </tr>
             @foreach ($candidato->candidatureCollegiUninominaliCamera as $candidatura)
                 <tr class="tr-standard">
                     <td><a href="{{ route('collegio_uninominale_camera', $candidatura->collegio) }}"
                             class="anchor">@svg('heroicon-o-cursor-arrow-rays', 'w-5 h-5 inline-block') {{ $candidatura->collegio->nome }}</a></td>
                     <td>{{ $candidatura->coalizione->nome }}</td>
+                    <td>@if($candidatura->eletto) @svg('heroicon-o-star', 'w-5 h-5 inline-block') @endif </td>
                 </tr>
             @endforeach
         </table>
@@ -44,12 +46,16 @@
             <tr class="tr-heading">
                 <th>Collegio plurinominale</th>
                 <th>Lista</th>
+                <th>Eletto</th>
             </tr>
             @foreach ($candidato->candidatureCollegiPlurinominaliCamera as $candidatura)
                 <tr class="tr-standard">
                     <td><a href="{{ route('collegio_plurinominale_camera', $candidatura->collegioPlurinominale) }}"
                             class="anchor">@svg('heroicon-o-cursor-arrow-ripple', 'w-5 h-5 inline-block') {{ $candidatura->collegioPlurinominale->nome }}</td>
                     <td>{{ $candidatura->lista->nome }}</td>
+                    <td>
+                        @if($candidatura->pivot->eletto) @svg('heroicon-o-star', 'w-5 h-5 inline-block') @endif
+                    </td>
                 </tr>
             @endforeach
         </table>
@@ -62,12 +68,14 @@
             <tr class="tr-heading">
                 <th>Collegio uninominale</th>
                 <th>Coalizione</th>
+                <th>Eletto</th>
             </tr>
             @foreach ($candidato->candidatureCollegiUninominaliSenato as $candidatura)
                 <tr class="tr-standard">
                     <td><a href="{{ route('collegio_uninominale_senato', $candidatura->collegio) }}"
                             class="anchor">@svg('heroicon-o-cursor-arrow-rays', 'w-5 h-5 inline-block') {{ $candidatura->collegio->nome }}</a></td>
                     <td>{{ $candidatura->coalizione->nome }}</td>
+                    <td>@if($candidatura->eletto) @svg('heroicon-o-star', 'w-5 h-5 inline-block') @endif </td>
                 </tr>
             @endforeach
         </table>
@@ -80,12 +88,16 @@
             <tr class="tr-heading">
                 <th>Collegio plurinominale</th>
                 <th>Lista</th>
+                <th>Eletto</th>
             </tr>
             @foreach ($candidato->candidatureCollegiPlurinominaliSenato as $candidatura)
                 <tr class="tr-standard">
                     <td><a href="{{ route('collegio_plurinominale_senato', $candidatura->collegioPlurinominale) }}"
                             class="anchor">@svg('heroicon-o-cursor-arrow-ripple', 'w-5 h-5 inline-block') {{ $candidatura->collegioPlurinominale->nome }}</td>
                     <td>{{ $candidatura->lista->nome }}</td>
+                    <td>
+                        @if($candidatura->pivot->eletto) @svg('heroicon-o-star', 'w-5 h-5 inline-block') @endif
+                    </td>
                 </tr>
             @endforeach
         </table>

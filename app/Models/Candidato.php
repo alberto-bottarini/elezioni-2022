@@ -22,7 +22,8 @@ class Candidato extends Model
 
     public function candidatureCollegiPlurinominaliCamera(): BelongsToMany
     {
-        return $this->belongsToMany(CandidaturaCollegioPlurinominaleCamera::class, 'candidati_candidature_collegi_plurinominali_camera', 'candidato_id', 'candidatura_collegio_plurinominale_camera_id');
+        return $this->belongsToMany(CandidaturaCollegioPlurinominaleCamera::class, 'candidati_candidature_collegi_plurinominali_camera', 'candidato_id', 'candidatura_collegio_plurinominale_camera_id')
+            ->withPivot('eletto');
     }
 
     public function candidatureCollegiUninominaliCamera(): HasMany
@@ -32,7 +33,8 @@ class Candidato extends Model
 
     public function candidatureCollegiPlurinominaliSenato(): BelongsToMany
     {
-        return $this->belongsToMany(CandidaturaCollegioPlurinominaleSenato::class, 'candidati_candidature_collegi_plurinominali_senato', 'candidato_id', 'candidatura_collegio_plurinominale_senato_id');
+        return $this->belongsToMany(CandidaturaCollegioPlurinominaleSenato::class, 'candidati_candidature_collegi_plurinominali_senato', 'candidato_id', 'candidatura_collegio_plurinominale_senato_id')
+            ->withPivot('eletto');
     }
 
     public function candidatureCollegiUninominaliSenato(): HasMany

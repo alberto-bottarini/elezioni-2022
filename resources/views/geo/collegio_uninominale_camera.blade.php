@@ -61,6 +61,30 @@
             </tr>
         @endforeach
     </table>
+
+    <h2 class="section">Eletto</h2>
+    <table class="table">
+        <tr class="tr-heading">
+            <th>Nome</th>
+            <th>Coalizione</th>
+        </tr>
+        @foreach ($candidature as $candidatura)
+            @if ($candidatura->eletto)
+                <tr class="tr-standard">
+                    <td>
+                        <a href="{{ route('candidato', $candidatura->candidato) }}" class="anchor">
+                            @svg('heroicon-o-user-circle', 'w-5 h-5 inline-block') {{ $candidatura->candidato->nome }}
+                        </a>
+                    </td>
+                    <td>
+                        <a class="anchor" href="{{ route('coalizione', $candidatura->coalizione) }}">
+                            @svg('heroicon-o-queue-list', 'w-5 h-5 inline-block'){{ $candidatura->coalizione->nome }}
+                        </a>
+                    </td>
+                </tr>
+            @endif
+        @endforeach
+    </table>
     
     <h2 class="section">Candidati</h2>
     @include('partials.geo.candidati_uninominale', ['candidature' => $collegio->candidature ])

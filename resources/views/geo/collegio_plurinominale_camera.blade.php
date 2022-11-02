@@ -37,9 +37,34 @@
     <h2 class="section">Risultati</h2>
     @include('partials.geo.risultati_plurinominale')
 
-    @if($collegio->candidature->count())
+    <h2 class="section">Eletti</h2>
+    <table class="table">
+        <tr class="tr-heading">
+            <th>Nome</th>
+            <th>Lista</th>
+        </tr>
+        @foreach ($candidature as $candidatura)
+            @foreach ($candidatura->candidati as $candidato)
+                @if ($candidato->pivot->eletto)
+                    <tr class="tr-standard">
+                        <td>
+                            <a href="{{ route('candidato', $candidato) }}" class="anchor">
+                                @svg('heroicon-o-user-circle', 'w-5 h-5 inline-block') {{ $candidato->nome }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="anchor" href="{{ route('lista', $candidatura->lista) }}">
+                                @svg('heroicon-o-list-bullet', 'w-4 h-4 inline-block mr-2'){{ $candidatura->lista->nome }}
+                            </a>
+                        </td>
+                    </tr>
+                @endif
+            @endforeach
+        @endforeach
+    </table>
+
+    @if ($collegio->candidature->count())
         <h2 class="section">Candidati</h2>
         @include('partials.geo.candidati_plurinominale', ['candidature' => $candidature])
     @endif
-    
 @endsection

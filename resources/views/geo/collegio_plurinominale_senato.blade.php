@@ -30,6 +30,32 @@
             </tr>
         @endforeach
     </table>
+
+    <h2 class="section">Eletti</h2>
+    <table class="table">
+        <tr class="tr-heading">
+            <th>Nome</th>
+            <th>Lista</th>
+        </tr>
+        @foreach ($candidature as $candidatura)
+            @foreach ($candidatura->candidati as $candidato)
+                @if ($candidato->pivot->eletto)
+                    <tr class="tr-standard">
+                        <td>
+                            <a href="{{ route('candidato', $candidato) }}" class="anchor">
+                                @svg('heroicon-o-user-circle', 'w-5 h-5 inline-block') {{ $candidato->nome }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="anchor" href="{{ route('lista', $candidatura->lista) }}">
+                                @svg('heroicon-o-queue-list', 'w-5 h-5 inline-block'){{ $candidatura->lista->nome }}
+                            </a>
+                        </td>
+                    </tr>
+                @endif
+            @endforeach
+        @endforeach
+    </table>
     
     <h2 class="section">Risultati</h2>
     @include('partials.geo.risultati_plurinominale')
