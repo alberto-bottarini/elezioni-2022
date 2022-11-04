@@ -10,6 +10,8 @@ use App\Models\NazioneEstero;
 use App\Models\PreferenzaEsteroCamera;
 use App\Models\PreferenzaEsteroSenato;
 use App\Models\RipartizioneEstero;
+use App\Models\VotoListaEsteroCamera;
+use App\Models\VotoListaEsteroSenato;
 use Illuminate\Console\Command;
 use League\Csv\Reader;
 
@@ -41,9 +43,11 @@ class ImportEstero extends Command
             if ($palazzo == 'camera') {
                 $candidaturaModel = CandidaturaEsteroCamera::class;
                 $preferenzaModel = PreferenzaEsteroCamera::class;
+                $votoModel = VotoListaEsteroCamera::class;
             } else {
                 $candidaturaModel = CandidaturaEsteroSenato::class;
                 $preferenzaModel = PreferenzaEsteroSenato::class;
+                $votoModel = VotoListaEsteroSenato::class;
             }
 
             $this->warn('Importo candidature ' . $palazzo);
@@ -165,6 +169,62 @@ class ImportEstero extends Command
 
                 $bar->advance();
             }
+
+            $this->newLine();
+
+            $this->warn('Importo voti ' . $palazzo);
+
+            $scrutiniFile = '/var/eligendo/Politiche2022_Scrutini_'.ucfirst($palazzo).'_Estero.csv';
+            $scrutiniCsv = Reader::createFromPath($scrutiniFile, 'r');
+            $scrutiniCsv->setHeaderOffset(0);
+            $scrutiniCsv->setDelimiter(';');
+
+            $records = $scrutiniCsv->getRecords();
+
+            $bar = $this->output->createProgressBar(iterator_count($records));
+            $bar->start();
+
+            $votiCollection = collect();
+            foreach ($records as $record) {
+                $listaNome = $record['Lista'];
+                $lista = Lista::where('nome', $listaNome)->first();
+                if (is_null($lista)) {
+                    $this->error('Lista ' . $listaNome . ' non esiste');
+                    return;
+                }
+
+                $nazioneNome = $record['Nazione'];
+                $nazione = NazioneEstero::where('nome', $nazioneNome)->first();
+                if (is_null($nazione)) {
+                    $this->error('Nazione ' . $nazioneNome . ' non esiste');
+                    return;
+                }
+
+                if (!$votiCollection->has($nazione->id)) {
+                    $votiCollection->put($nazione->id, collect());
+                }
+
+                $nazioneCollection = $votiCollection->get($nazione->id);
+                $nazioneCollection->put($lista->id, $record['Voti Liste']);
+                $votiCollection->put($nazione->id, $nazioneCollection);
+
+                $bar->advance();
+            }
+
+            foreach ($votiCollection as $nazioneId => $nazioneCollection) {
+                $totale = $nazioneCollection->sum();
+                foreach ($nazioneCollection as $listaId => $voti) {
+                    $votoModel::unguard();
+                    $votoModel::updateOrCreate([
+                        'lista_id' => $listaId,
+                        'nazione_id' => $nazioneId
+                    ], [
+                        'voti' => $voti,
+                        'percentuale' => $totale > 0 ? $voti / $totale * 100 : 0
+                    ]);
+                }
+            }
+
 
             $this->newLine();
         }

@@ -4,8 +4,7 @@
     @include('partials.meta', [
         'title' => $comune->nomeCompleto . ' | Elezioniamo 2022 | Tutti i dati delle Elezioni Politiche 2022',
         'description' =>
-            'Scopri grazie ad Elezioniamo le candidature e i risultati nel comune di ' . $comune->nomeCompleto,
-        'og' => asset('og/comune/' . $comune->id . '.png'),
+            'Scopri grazie ad Elezioniamo le candidature e i risultati nel comune di ' . $comune->nomeCompleto
     ])
 @endsection
 

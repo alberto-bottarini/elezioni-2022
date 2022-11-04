@@ -85,6 +85,15 @@
 
         <div>
             <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
+                <a href="{{ route('ripartizioni_estero') }}" class="block py-4 px-2">
+                    @svg('heroicon-o-globe-alt', 'w-5 h-5 inline-block mb-2')<br>
+                    Elenco ripartizioni Estero
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <div class="border border-sky-400 bg-sky-200 text-center text-sm hover:bg-sky-400">
                 <a href="{{ route('comuni') }}" class="block py-4 px-2">
                     @svg('heroicon-o-map-pin', 'w-5 h-5 inline-block mb-2')<br>
                     Elenco comuni
@@ -124,6 +133,7 @@
     <div class="section">Aggiornamenti del portale</div>
 
     <ul class="text-sm mt-4">
+        <li><b>04/11/22</b> Aggiunta sezione Ripartizioni Estero</li>
         <li><b>02/11/22</b> Importati eletti (tranne Val d'Aosta e Trentino Alto-Adige)</li>
         <li><b>31/10/22</b> Importati risultati Senato per Val d'Aosta e Trentino Alto-Adige + inserimento risultati nelle pagine Liste + ottimizzazione query</li>
         <li><b>25/10/22</b> Importati e sanificati i risultati del Senato</li>

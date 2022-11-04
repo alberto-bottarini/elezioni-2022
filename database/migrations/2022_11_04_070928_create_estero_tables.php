@@ -58,6 +58,7 @@ return new class () extends Migration {
             $table->unsignedBigInteger('lista_id')->references('id')->on('liste');
             $table->unsignedBigInteger('nazione_id')->references('id')->on('nazioni_estero');
             $table->unsignedInteger('voti');
+            $table->unsignedDecimal('percentuale', 5, 2);
         });
 
         Schema::create('voti_liste_estero_senato', function (Blueprint $table) {
@@ -65,6 +66,7 @@ return new class () extends Migration {
             $table->unsignedBigInteger('lista_id')->references('id')->on('liste');
             $table->unsignedBigInteger('nazione_id')->references('id')->on('nazioni_estero');
             $table->unsignedInteger('voti');
+            $table->unsignedDecimal('percentuale', 5, 2);
         });
     }
 

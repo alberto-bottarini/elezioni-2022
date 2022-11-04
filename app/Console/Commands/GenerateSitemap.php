@@ -11,6 +11,7 @@ use App\Models\CollegioUninominaleCamera;
 use App\Models\CollegioUninominaleSenato;
 use App\Models\Comune;
 use App\Models\Lista;
+use App\Models\RipartizioneEstero;
 use Illuminate\Console\Command;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\SitemapIndex;
@@ -43,12 +44,14 @@ class GenerateSitemap extends Command
             ->add('/sitemap-comuni.xml')
             ->add('/sitemap-liste.xml')
             ->add('/sitemap-candidati.xml')
+            ->add('/sitemap-estero.xml')
             ->writeToFile(public_path('sitemap.xml'));
 
         $geoSitemap = Sitemap::create()
             ->add(route('circoscrizioni_camera'))
             ->add(route('risultati_camera'))
-            ->add(route('circoscrizioni_senato'));
+            ->add(route('circoscrizioni_senato'))
+            ->add(route('risultati_senato'));
 
         $geoSitemap = CircoscrizioneCamera::all()->reduce(function ($geoSitemap, $circoscrizione) {
             return $geoSitemap->add(route('circoscrizione_camera', $circoscrizione));
@@ -106,6 +109,18 @@ class GenerateSitemap extends Command
         }, $candidatiSitemap);
 
         $candidatiSitemap->writeToFile(public_path('sitemap-candidati.xml'));
+
+        $esteroSitemap = Sitemap::create()
+            ->add(route('ripartizioni_estero'));
+
+        $esteroSitemap = RipartizioneEstero::all()->reduce(function ($esteroSitemap, $ripartizione) {
+            $esteroSitemap->add(route('ripartizione_estero', $ripartizione));
+            return $ripartizione->nazioni->reduce(function ($esteroSitemap, $nazione) {
+                return $esteroSitemap->add(route('nazione_estero', $nazione));
+            }, $esteroSitemap);
+        }, $esteroSitemap);
+
+        $esteroSitemap->writeToFile(public_path('sitemap-estero.xml'));
 
         return Command::SUCCESS;
     }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
@@ -40,6 +41,16 @@ class Candidato extends Model
     public function candidatureCollegiUninominaliSenato(): HasMany
     {
         return $this->hasMany(CandidaturaCollegioUninominaleSenato::class, 'candidato_id');
+    }
+
+    public function candidatureEsteroCamera(): HasMany
+    {
+        return $this->hasMany(CandidaturaEsteroCamera::class, 'candidato_id');
+    }
+
+    public function candidatureEsteroSenato(): HasMany
+    {
+        return $this->hasMany(CandidaturaEsteroSenato::class, 'candidato_id');
     }
 
     public function scopeOrderByListaName(Builder $query)

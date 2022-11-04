@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CandidatiController;
+use App\Http\Controllers\EsteroController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GeoController;
 use App\Http\Controllers\ListeController;
@@ -51,5 +52,11 @@ Route::get('/candidato/{candidato}', [CandidatiController::class, 'candidato'])-
 
 Route::get('/risultati-camera', [GeoController::class, 'camera'])->name('risultati_camera');
 Route::get('/risultati-senato', [GeoController::class, 'senato'])->name('risultati_senato');
+
+Route::get('/ripartizioni-estero', [EsteroController::class, 'ripartizioni'])->name('ripartizioni_estero');
+Route::get('/ripartizioni-estero/{ripartizioneEstero}', [EsteroController::class, 'ripartizione'])->name('ripartizione_estero');
+
+Route::get('/nazioni-estero', [EsteroController::class, 'nazioni'])->name('nazioni_estero');
+Route::get('/nazioni-estero/{nazioneEstero}', [EsteroController::class, 'nazione'])->name('nazione_estero');
 
 Route::post('/ricerca', [SearchController::class, 'search'])->name('ricerca');
