@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Candidato;
 use App\Models\Comune;
 use App\Models\Lista;
+use App\Models\NazioneEstero;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\List_;
 
@@ -59,6 +60,20 @@ class SearchController extends Controller
             })
             ->toArray()
         );
+
+
+        $results = array_merge($results, NazioneEstero::whereLike('nome', $search)
+            ->get()
+            ->map(function($nazione) {
+                return [
+                    'label' => $nazione->nome,
+                    'route' => route('nazione_estero', $nazione),
+                    'type' => 'nazione'
+                ];
+            })
+            ->toArray()
+        );
+
 
         usort($results, function($a, $b) {
             return $a['label'] <=> $b['label'];

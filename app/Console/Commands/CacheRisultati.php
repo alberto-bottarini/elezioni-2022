@@ -9,6 +9,7 @@ use App\Models\CollegioPlurinominaleSenato;
 use App\Models\CollegioUninominaleCamera;
 use App\Models\CollegioUninominaleSenato;
 use App\Models\RisultatoCamera;
+use App\Models\RisultatoCameraEstero;
 use App\Models\RisultatoCircoscrizioneCamera;
 use App\Models\RisultatoCircoscrizioneSenato;
 use App\Models\RisultatoCollegioPlurinominaleCamera;
@@ -18,6 +19,9 @@ use App\Models\RisultatoCollegioUninominaleCameraLista;
 use App\Models\RisultatoCollegioUninominaleSenato;
 use App\Models\RisultatoCollegioUninominaleSenatoLista;
 use App\Models\RisultatoSenato;
+use App\Models\RisultatoSenatoEstero;
+use App\Models\VotoListaEsteroCamera;
+use App\Models\VotoListaEsteroSenato;
 use Illuminate\Console\Command;
 
 class CacheRisultati extends Command
@@ -43,12 +47,11 @@ class CacheRisultati extends Command
      */
     public function handle()
     {
+        $palazzi = ['camera', 'senato'];
         if ($this->option('palazzo') == 'camera') {
             $palazzi = ['camera'];
         } elseif ($this->option('palazzo') == 'senato') {
             $palazzi = ['senato'];
-        } else {
-            $palazzi = ['camera', 'senato'];
         }
 
         foreach ($palazzi as $palazzo) {
@@ -64,6 +67,8 @@ class CacheRisultati extends Command
                 $collegioPlurinominaleModel = CollegioPlurinominaleCamera::class;
                 $circoscrizioneModel = CircoscrizioneCamera::class;
                 $circoscrizioniDaEscludere = [3];
+                $votoListaEstero = VotoListaEsteroCamera::class;
+                $risultatoPalazzoEsteroModel = RisultatoCameraEstero::class;
             } else {
                 $risultatoCollegioUninominaleModel = RisultatoCollegioUninominaleSenato::class;
                 $risultatoCollegioUninominaleListaModel = RisultatoCollegioUninominaleSenatoLista::class;
@@ -73,7 +78,9 @@ class CacheRisultati extends Command
                 $collegioUninominaleModel = CollegioUninominaleSenato::class;
                 $collegioPlurinominaleModel = CollegioPlurinominaleSenato::class;
                 $circoscrizioneModel = CircoscrizioneSenato::class;
-                $circoscrizioniDaEscludere = [2,4];
+                $circoscrizioniDaEscludere = [2, 4];
+                $votoListaEstero = VotoListaEsteroSenato::class;
+                $risultatoPalazzoEsteroModel = RisultatoSenatoEstero::class;
             }
 
             $risultatoCollegioUninominaleModel::truncate();
@@ -81,6 +88,7 @@ class CacheRisultati extends Command
             $risultatoCollegioPlurinominaleModel::truncate();
             $risultatoCircoscrizioneModel::truncate();
             $risultatoPalazzoModel::truncate();
+            $risultatoPalazzoEsteroModel::truncate();
 
             $collegioUninominaleModel::each(function ($collegioUninominale) use ($risultatoCollegioUninominaleModel, $risultatoCollegioUninominaleListaModel) {
                 $voti = $collegioUninominale->candidature->mapWithKeys(function ($candidatura) {
@@ -249,7 +257,24 @@ class CacheRisultati extends Command
                 ]);
             }
 
-            return Command::SUCCESS;
+            $risultatiEstero = $votoListaEstero::all()->groupBy('lista_id')->reduce(function ($carry, $group) {
+                $listaId = $group->first()->lista_id;
+                $voti = $group->sum('voti');
+
+                $carry->put($listaId, $voti);
+                return $carry;
+            }, collect());
+
+            $totaliEstero = $risultatiEstero->sum();
+            foreach ($risultatiEstero as $lista => $voti) {
+                $risultatoPalazzoEsteroModel::unguard();
+                $risultatoPalazzoEsteroModel::create([
+                    'lista_id' => $lista,
+                    'voti' => $voti,
+                    'percentuale' => $voti > 0 ? round($voti / $totaliEstero * 100, 2) : 0,
+                ]);
+            }
         }
+        return Command::SUCCESS;
     }
 }

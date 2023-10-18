@@ -40,4 +40,14 @@ class Lista extends Model
     {
         return $this->hasMany(CandidaturaCollegioPlurinominaleSenato::class, 'lista_id');
     }
+
+    public function candidatureEsteroCamera(): HasMany
+    {
+        return $this->hasMany(CandidaturaEsteroCamera::class, 'lista_id');
+    }
+
+    public function candidatureEsteroSenato(): HasMany
+    {
+        return $this->hasMany(CandidaturaEsteroSenato::class, 'lista_id');
+    }
 }

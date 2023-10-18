@@ -41,6 +41,14 @@
             <td><a class="anchor" href="{{ route('lista_collegi_plurinominali_senato', $lista) }}">Plurinominale Senato</a></td>
             <td>{{ $lista->candidatureCollegiPlurinominaliSenato()->count() }}</td>
         </tr>
+        {{-- <tr class="tr-standard">
+            <td><a class="anchor" href="{{ route('lista_estero_camera', $lista) }}">Estero Camera</a></td>
+            <td>{{ $lista->candidatureEsteroCamera()->count() }}</td>
+        </tr>
+        <tr class="tr-standard">
+            <td><a class="anchor" href="{{ route('lista_estero_senato', $lista) }}">Estero Senato</a></td>
+            <td>{{ $lista->candidatureEsteroSenato()->count() }}</td>
+        </tr> --}}
     </table>
 
     @if($risultatoCamera || $risultatoSenato)

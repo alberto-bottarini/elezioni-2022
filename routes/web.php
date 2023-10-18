@@ -5,7 +5,6 @@ use App\Http\Controllers\EsteroController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GeoController;
 use App\Http\Controllers\ListeController;
-use App\Http\Controllers\RisultatiController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +40,8 @@ Route::get('/lista/{lista}/collegi-plurinominali-camera', [ListeController::clas
 Route::get('/lista/{lista}/collegi-uninominali-camera', [ListeController::class, 'listaUninominaliCamera'])->name('lista_collegi_uninominali_camera');
 Route::get('/lista/{lista}/collegi-plurinominali-senato', [ListeController::class, 'listaPlurinominaliSenato'])->name('lista_collegi_plurinominali_senato');
 Route::get('/lista/{lista}/collegi-uninominali-senato', [ListeController::class, 'listaUninominaliSenato'])->name('lista_collegi_uninominali_senato');
+Route::get('/lista/{lista}/estero-camera', [ListeController::class, 'listaEsteroCamera'])->name('lista_estero_camera');
+Route::get('/lista/{lista}/estero-senato', [ListeController::class, 'listaEsteroSenato'])->name('lista_estero_senato');
 
 Route::get('/coalizioni', [ListeController::class, 'coalizioni'])->name('coalizioni');
 Route::get('/coalizione/{coalizione}', [ListeController::class, 'coalizione'])->name('coalizione');

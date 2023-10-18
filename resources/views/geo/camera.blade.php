@@ -24,5 +24,8 @@
 
     <h2 class="section">Risultati Val d'Aosta</h2>
     @include('partials.geo.risultati_plurinominale', ['risultatiPerCoalizione' => $risultatiVDA])
+
+    <h2 class="section">Risultati Estero</h2>
+    @include('partials.geo.risultati_plurinominale', ['risultatiPerCoalizione' => $risultatiEsteroPerCoalizione])
     
 @endsection

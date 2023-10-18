@@ -11,7 +11,9 @@ use App\Models\CollegioUninominaleCamera;
 use App\Models\CollegioUninominaleSenato;
 use App\Models\Comune;
 use App\Models\RisultatoCamera;
+use App\Models\RisultatoCameraEstero;
 use App\Models\RisultatoSenato;
+use App\Models\RisultatoSenatoEstero;
 use DivisionByZeroError;
 
 class GeoController extends Controller
@@ -179,26 +181,30 @@ class GeoController extends Controller
         $coalizioni = Coalizione::with('liste')->get();
         $risultatiPerCoalizione = $this->groupRisultatiByCoalizione($risultati, $coalizioni);
         $risultatiVDA = $this->groupRisultatiByCoalizione(CircoscrizioneCamera::where('id', 3)->first()->risultati, $coalizioni);
-        $coalizioni = Coalizione::with('liste')->get();
+        $risultatiEstero = RisultatoCameraEstero::with('lista')->get();
+        $risultatiEsteroPerCoalizione = $this->groupRisultatiByCoalizione($risultatiEstero, $coalizioni);
 
         return view('geo.camera')
             ->with('coalizioni', $coalizioni)
             ->with('risultatiPerCoalizione', $risultatiPerCoalizione)
+            ->with('risultatiEsteroPerCoalizione', $risultatiEsteroPerCoalizione)
             ->with('risultatiVDA', $risultatiVDA);
     }
 
     public function senato()
     {
-        $risultati = RisultatoCamera::with('lista')->get();
+        $risultati = RisultatoSenato::with('lista')->get();
         $coalizioni = Coalizione::with('liste')->get();
         $risultatiPerCoalizione = $this->groupRisultatiByCoalizione($risultati, $coalizioni);
         $risultatiVDA = $this->groupRisultatiByCoalizione(CircoscrizioneSenato::where('id', 2)->first()->risultati, $coalizioni);
         $risultatiTAA = $this->groupRisultatiByCoalizione(CircoscrizioneSenato::where('id', 4)->first()->risultati, $coalizioni);
-        
+        $risultatiEstero = RisultatoSenatoEstero::with('lista')->get();
+        $risultatiEsteroPerCoalizione = $this->groupRisultatiByCoalizione($risultatiEstero, $coalizioni);
 
         return view('geo.senato')
             ->with('coalizioni', $coalizioni)
             ->with('risultatiPerCoalizione', $risultatiPerCoalizione)
+            ->with('risultatiEsteroPerCoalizione', $risultatiEsteroPerCoalizione)
             ->with('risultatiVDA', $risultatiVDA)
             ->with('risultatiTAA', $risultatiTAA);
     }

@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Candidato;
 use App\Models\CandidaturaEsteroCamera;
 use App\Models\CandidaturaEsteroSenato;
+use App\Models\Coalizione;
 use App\Models\Lista;
 use App\Models\NazioneEstero;
 use App\Models\PreferenzaEsteroCamera;
@@ -12,6 +13,7 @@ use App\Models\PreferenzaEsteroSenato;
 use App\Models\RipartizioneEstero;
 use App\Models\VotoListaEsteroCamera;
 use App\Models\VotoListaEsteroSenato;
+use Exception;
 use Illuminate\Console\Command;
 use League\Csv\Reader;
 
@@ -51,7 +53,7 @@ class ImportEstero extends Command
             }
 
             $this->warn('Importo candidature ' . $palazzo);
-            $candidatureFile = '/var/eligendo/'.strtoupper($palazzo).'_ESTERO_20220925.csv';
+            $candidatureFile = '/var/eligendo/' . strtoupper($palazzo) . '_ESTERO_20220925.csv';
             $candidatureCsv = Reader::createFromPath($candidatureFile, 'r');
             $candidatureCsv->setHeaderOffset(0);
 
@@ -82,6 +84,15 @@ class ImportEstero extends Command
                     'nome' => $listaNome
                 ]);
 
+                $coalizione = $lista->coalizione;
+                if (!$coalizione) {
+                    Coalizione::unguard();
+                    $coalizione = Coalizione::firstOrCreate([
+                        'nome' => $listaNome
+                    ]);
+                    $coalizione->liste()->save($lista);
+                }
+
                 $candidaturaModel::unguard();
                 $candidaturaModel::firstOrCreate([
                     'ripartizione_id' => $ripartizione->id,
@@ -98,7 +109,7 @@ class ImportEstero extends Command
 
             $this->warn('Importo preferenze ' . $palazzo);
 
-            $preferenzeFile = '/var/eligendo/Politiche2022_Preferenze_'.ucfirst($palazzo).'_Estero.csv';
+            $preferenzeFile = '/var/eligendo/Politiche2022_Preferenze_' . ucfirst($palazzo) . '_Estero.csv';
             $preferenzeCsv = Reader::createFromPath($preferenzeFile, 'r');
             $preferenzeCsv->setHeaderOffset(0);
             $preferenzeCsv->setDelimiter(';');
@@ -174,7 +185,7 @@ class ImportEstero extends Command
 
             $this->warn('Importo voti ' . $palazzo);
 
-            $scrutiniFile = '/var/eligendo/Politiche2022_Scrutini_'.ucfirst($palazzo).'_Estero.csv';
+            $scrutiniFile = '/var/eligendo/Politiche2022_Scrutini_' . ucfirst($palazzo) . '_Estero.csv';
             $scrutiniCsv = Reader::createFromPath($scrutiniFile, 'r');
             $scrutiniCsv->setHeaderOffset(0);
             $scrutiniCsv->setDelimiter(';');
@@ -186,6 +197,7 @@ class ImportEstero extends Command
 
             $votiCollection = collect();
             foreach ($records as $record) {
+
                 $listaNome = $record['Lista'];
                 $lista = Lista::where('nome', $listaNome)->first();
                 if (is_null($lista)) {

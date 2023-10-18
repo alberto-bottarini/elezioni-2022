@@ -133,6 +133,7 @@
     <div class="section">Aggiornamenti del portale</div>
 
     <ul class="text-sm mt-4">
+        <li><b>20/09/23</b> Aggiornamenti e correzioni risultati Ripartizioni Estero</li>
         <li><b>04/11/22</b> Aggiunta sezione Ripartizioni Estero</li>
         <li><b>02/11/22</b> Importati eletti (tranne Val d'Aosta e Trentino Alto-Adige)</li>
         <li><b>31/10/22</b> Importati risultati Senato per Val d'Aosta e Trentino Alto-Adige + inserimento risultati nelle pagine Liste + ottimizzazione query</li>

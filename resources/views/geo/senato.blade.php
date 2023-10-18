@@ -27,5 +27,8 @@
 
     <h2 class="section">Risultati Trentino Alto Adige</h2>
     @include('partials.geo.risultati_plurinominale', ['risultatiPerCoalizione' => $risultatiTAA])
+
+    <h2 class="section">Risultati Estero</h2>
+    @include('partials.geo.risultati_plurinominale', ['risultatiPerCoalizione' => $risultatiEsteroPerCoalizione])
     
 @endsection
